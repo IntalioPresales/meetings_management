@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<!-- <script type="text/javascript" src="assets/js/plugins/visualization/d3/d3.min.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/plugins/visualization/d3/d3_tooltip.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script> -->
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/plugins/visualization/echarts/echarts.js"></script> -->
+
+	<!-- <script type="text/javascript" src="assets/js/plugins/notifications/jgrowl.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/anytime.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/legacy.js"></script>-->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script> -->
+	<script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/lang/ar.js"></script>
+
+	<!-- <script type="text/javascript" src="assets/js/plugins/notifications/pnotify.min.js"></script> -->
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script> -->
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+	<script type="text/javascript" src="assets/js/pages/custom_extra_fullcalendar_advanced_member.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/pages/form_multiselect.js"></script> -->
+
+
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.event_icon {
+			height: 17px;
+			background: #fff;
+			border-radius: 50%;
+			padding: 1px;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar_member.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar_member.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Meetings</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Meetings</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<ul class="nav nav-tabs nav-tabs-solid nav-justified no-margin mb-20">
+					<li class="tab_draft active"><a href="#tab1" data-toggle="tab">
+							Calendar
+						</a>
+					</li>
+					<li class="tab_draft"><a href="#tab3" data-toggle="tab">
+							List
+						</a>
+					</li>
+
+				</ul>
+
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+
+						<!-- External events -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h5 class="panel-title">Calendar</h5>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+
+								<div class="row">
+									<div class="col-xs-12  mb-15 text-right">
+
+
+										<!-- <div class="form-group col-xs-4 ">
+											<div class="multi-select-full ">
+												<select class="multiselect-select-all" multiple="multiple">
+													<option value="google">Google Calendar</option>
+													<option value="outlook">Outlook Calendar</option>
+													<option value="app">Application Calendar</option>
+												</select>
+											</div>
+										</div> -->
+
+										<div class="form-group col-xs-4 ">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="icon-filter3"></i></span>
+												<div class="multi-select-full ">
+													<select class="multiselect-select-all" multiple="multiple">
+														<option value="google">Google Calendar</option>
+														<option value="outlook" selected>Outlook Calendar</option>
+														<option value="app" selected>Application Calendar</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- <div class="col-md-3">
+										<div class="content-group" id="external-events">
+											<h6>Pending meetings</h6>
+											<div class="fc-events-container content-group">
+												<div class="fc-event" data-color="#546E7A">Meeting 1</div>
+												<div class="fc-event" data-color="#26A69A">Meeting 2</div>
+												<div class="fc-event" data-color="#546E7A">Meeting 3</div>
+												<div class="fc-event" data-color="#FF7043">Meeting 4</div>
+												<div class="fc-event" data-color="#5C6BC0">Meeting 5</div>
+												<div class="fc-event">Meeting 6</div>
+												<div class="fc-event">Meeting 7</div>
+											</div>
+
+										</div>
+									</div> -->
+
+									<div class="col-md-12">
+										<div class="fullcalendar-external"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /external events -->
+
+					</div>
+
+					<div class="tab-pane" id="tab2">
+
+					</div>
+
+					<div class="tab-pane" id="tab3">
+
+					</div>
+
+				</div>
+
+
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+	<script>
+
+		var app = angular.module("app", []);
+		console.log(app)
+
+		app.controller("MainCtrl", function ($scope) {
+
+		})
+
+
+	</script>
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+
+</body>
+
+</html>

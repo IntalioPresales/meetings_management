@@ -1,0 +1,195 @@
+<!-- <div class="sidebar sidebar-secondary sidebar-default"> -->
+<style>
+    .btn-float>span a {
+        color: #fff;
+    }
+</style>
+<div class="sidebar-content">
+
+    <!-- Actions -->
+    <div class="sidebar-category">
+        <div class="category-title">
+            <span>Actions</span>
+            <ul class="icons-list">
+                <li><a href="#" data-action="collapse"></a></li>
+            </ul>
+        </div>
+
+        <div class="category-content">
+            <div class="row row-condensed">
+                <div class="col-xs-6">
+                    <button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg"><i class="icon-file-plus"></i> <span>New Meeting</span></button>
+                    <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>History</span></button>
+                </div>
+
+                <div class="col-xs-6">
+                    <button type="button" onclick="redirectTo('room.html')" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span> Dashboard </span></button>
+                    <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>Settings</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /actions -->
+
+
+    <!-- Navigation -->
+    <div class="sidebar-category">
+        <div class="category-title">
+            <span>Navigation</span>
+            <ul class="icons-list">
+                <li><a href="#" data-action="collapse" class=""></a></li>
+            </ul>
+        </div>
+
+        <div class="category-content no-padding" style="display: block;">
+            <ul class="navigation navigation-alt navigation-accordion">
+                <li class="navigation-header"></li>
+                <li><a href="javascript:void(0)" onclick="redirectTo('room_calendar.html')"><i class="icon-calendar2"></i> Calendar</a></li>
+                <li><a href="#"><i class="icon-archive"></i> Meetings <span class="badge bg-warning-400">9</span></a></li>
+                <li><a href="#"><i class="icon-paint-format"></i> Maintenance <span class="badge bg-warning-400">1</span></a></li>
+                <li><a href="#"><i class="icon-brush"></i> Cleaning </a></li>
+                <li><a href="#"><i class="icon-presentation"></i> Equipment </a></li>
+                <!-- <li><a href="#"><i class="icon-archive"></i> History </a></li> -->
+                <!-- <li><a href="#"><i class="icon-cog3"></i> Settings</a></li> -->
+            </ul>
+        </div>
+    </div>
+    <!-- /navigation -->
+
+    <!-- Filter -->
+    <div class="sidebar-category">
+        <div class="category-title">
+            <span>Filter reservations</span>
+            <ul class="icons-list">
+                <li><a href="#" data-action="collapse" class=""></a></li>
+            </ul>
+        </div>
+
+        <div class="category-content" style="display: block;">
+            <form action="#" class="ng-pristine ng-valid">
+
+                <div class="form-group">
+                    <label class="display-block">Created By</label>
+                    <select class="select-border-color border-warning select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                        <option value=""></option>
+                        <option value="AZ">Mazen farah</option>
+                        <option value="WV">Salam Daher</option>
+                        <option value="WV">Hasan Rifaii</option>
+                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                aria-labelledby="select2-ql4w-container"><span class="select2-selection__rendered" id="select2-ql4w-container" title=""></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                            aria-hidden="true"></span></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="display-block">Country</label>
+                    <select class="select-border-color border-warning select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                        <option value=""></option>
+
+                        <optgroup label="Asia">
+                            <option value="AZ">KSA</option>
+                            <option value="CO">Bahrain</option>
+                            <option value="ID">UAE</option>
+                            <option value="WY">Jordan</option>
+                        </optgroup>
+                        <optgroup label="Africa">
+                            <option value="AL">Eygpt</option>
+                            <option value="IA">Libia</option>
+                            <option value="KS">Morocco</option>
+                        </optgroup>
+                        <optgroup label="Europe">
+                            <option value="CT">UK</option>
+                            <option value="WV">Germany</option>
+                        </optgroup>
+                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                aria-labelledby="select2-0suz-container"><span class="select2-selection__rendered" id="select2-0suz-container" title=""></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                            aria-hidden="true"></span></span>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button type="reset" class="btn btn-default btn-block btn-xs">Reset</button>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-info btn-block btn-xs">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /filter -->
+
+
+    <!-- Latest updates -->
+    <div class="sidebar-category">
+        <div class="category-title">
+            <span>Latest updates</span>
+            <ul class="icons-list">
+                <li><a href="#" data-action="collapse"></a></li>
+            </ul>
+        </div>
+
+        <div class="category-content">
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left"><a href="#" class="btn border-success text-success btn-flat btn-icon btn-sm btn-rounded"><i class="icon-checkmark3"></i></a></div>
+                    <div class="media-body">
+                        <a href="#">Richard Vango</a> paid invoice #0020
+                        <div class="media-annotation">4 minutes ago</div>
+                    </div>
+                </li>
+
+                <li class="media">
+                    <div class="media-left"><a href="#" class="btn border-slate text-slate btn-flat btn-icon btn-sm btn-rounded"><i class="icon-infinite"></i></a></div>
+                    <div class="media-body">
+                        Invoice #0029 status has been changed to "On hold"
+                        <div class="media-annotation">36 minutes ago</div>
+                    </div>
+                </li>
+
+                <li class="media">
+                    <div class="media-left"><a href="#" class="btn border-success text-success btn-flat btn-icon btn-sm btn-rounded"><i class="icon-checkmark3"></i></a></div>
+                    <div class="media-body">
+                        <a href="#">Chris Arney</a> paid invoice #0031 with Paypal
+                        <div class="media-annotation">2 hours ago</div>
+                    </div>
+                </li>
+
+                <li class="media">
+                    <div class="media-left"><a href="#" class="btn border-danger text-danger btn-flat btn-icon btn-sm btn-rounded"><i class="icon-cross2"></i></a></div>
+                    <div class="media-body">
+                        Invoice #0041 has been canceled
+                        <div class="media-annotation">Dec 18, 18:36</div>
+                    </div>
+                </li>
+
+                <li class="media">
+                    <div class="media-left"><a href="#" class="btn border-primary text-primary btn-flat btn-icon btn-sm btn-rounded"><i class="icon-plus3"></i></a></div>
+                    <div class="media-body">
+                        New invoice #0029 has been sent to <a href="#">Beatrix Diaz</a>
+                        <div class="media-annotation">Dec 12, 05:46</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /latest updates -->
+
+</div>
+<!-- </div> -->
+
+<script>
+
+    const queryString = window.location.search;
+
+    const urlParams = new URLSearchParams(queryString);
+
+    const room = urlParams.get('room');
+
+    function redirectTo(url) {
+        window.location.href = `${url}?room=${room}`
+    }
+
+</script>

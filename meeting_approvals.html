@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+	<script type="text/javascript" src="assets/js/users_repository.js"></script>
+	<script type="text/javascript" src="assets/js/workgroups_repository.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.timeline-date {
+			text-align: left;
+			font-size: 15px;
+			margin: 0;
+		}
+
+		.timeline-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.timeline-icon i {
+			/* margin-top: 2px; */
+			font-size: 20px;
+		}
+
+		.pointer {
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar_approval.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar_approval.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Meeting</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Meeting</a></li>
+					<li><a href="#">Approvals</a></li>
+					<!-- <li><a href="#">Details</a></li> -->
+					<li><a href="#">{{meeting.title}}</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<div class="row">
+					<div class="content-group" style="max-width: 600px; margin: auto;">
+						<div class="row row-seamless btn-block-group">
+							<div class="col-xs-4">
+								<button ng-click="reject()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-blocked text-warning-600"></i>
+									<span>Reject</span>
+								</button>
+							</div>
+
+							<div class="col-xs-4">
+								<button ng-click="accept()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-checkmark-circle2 text-blue"></i>
+									<span>Approve</span>
+								</button>
+							</div>
+
+							<div class="col-xs-4">
+								<button ng-click="cancel()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-backspace text-indigo"></i>
+									<span>Cancel</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-5">
+
+						<div class="timeline timeline-left">
+							<div class="timeline-container">
+
+								<div class="timeline-row" ng-repeat="approval in meeting.approvals">
+									<div class="timeline-icon "
+										ng-class="{'bg-indigo-400': approval.approved == true,'bg-danger-400': approval.approved==false,'bg-grey-300': approval.approved === null }">
+										<i class="icon-check" ng-show="approval.approved == true"></i>
+										<i class="icon-cross3" ng-show="approval.approved == false"></i>
+										<i class="icon-hour-glass" ng-show="approval.approved == null"></i>
+										<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+									</div>
+
+									<div class="row">
+
+										<div class="col-lg-12">
+											<div class="panel border-left-lg  timeline-content"
+												ng-class="{'border-left-indigo': approval.approved == true,'border-left-danger': approval.approved==false,'border-left-grey': approval.approved === null }">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-xs-8">
+															<div class="media">
+																<div class="media-left">
+																	<a href="assets/images/av7.jpg">
+																		<img src="assets/images/{{approval.imgsrc || 'av7.jpg'}}" style="width: 70px; height: 70px;" class="img-circle img-md" alt="">
+																	</a>
+																</div>
+
+																<div class="media-body">
+																	<h6 class="media-heading">{{approval.owner}}</h6>
+																	<p class="no-margin text-muted">{{approval.owner_position || 'CEO'}}</p>
+																</div>
+															</div>
+														</div>
+														<div class="col-xs-4 text-right">
+															<button type="button" ng-show="approval.approved == true" class="btn btn-xs bg-teal-400 btn-labeled btn-rounded"><b><i class="icon-check"></i></b> APPROVED</button>
+															<button type="button" ng-show="approval.approved == false" class="btn btn-xs bg-danger-400 btn-labeled btn-rounded"><b><i class="icon-cross3"></i></b> REJETED</button>
+															<button type="button" ng-show="approval.approved == null" class="btn btn-xs bg-grey-300 btn-labeled btn-rounded"><b><i class="icon-hour-glass"></i></b> PENDING</button>
+														</div>
+													</div>
+												</div>
+
+												<div class="panel-footer panel-footer-condensed">
+													<div class="heading-elements">
+														<span class="heading-text">Due: <span class="text-semibold">30 min</span></span>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+
+
+					</div>
+
+					<div class="col-lg-7">
+
+						<div class="row flex">
+
+							<div class="col-xs-6">
+
+								<!-- Simple list -->
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h5 class="panel-title text-everteam">
+											<i class="icon-users mr-5"></i>
+											ATTENDEES
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h5>
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="collapse"></a></li>
+												<li><a data-action="reload"></a></li>
+												<li><a data-action="close"></a></li>
+											</ul>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<!-- <li class="media-header">Team leaders</li> -->
+											<!-- ng-repeat="user in meeting.attendees" -->
+											<li class="media" ng-repeat="user in attendees">
+												<div class="media-left media-middle">
+													<a href="#">
+														<img src="assets/images/{{user.imgsrc}}" class="img-circle img-md" alt="">
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading text-semibold">
+														{{user.first_name}} {{user.last_name}}
+														<span>.</span>
+														<span class="text-everteam">Invitation Accepted</span>
+													</div>
+													<span class="text-muted">{{user.occupation}} . {{user.email}}</span>
+												</div>
+
+												<div class="media-right media-middle">
+													<ul class="icons-list icons-list-extended text-nowrap text-everteam">
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#call" data-original-title="Call"><i class="icon-phone2"></i></a></li>
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#chat" data-original-title="Chat"><i class="icon-comment"></i></a></li>
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#video" data-original-title="Video"><i class="icon-video-camera"></i></a></li>
+													</ul>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+								<!-- /simple list -->
+							</div>
+
+							<div class="col-xs-6">
+
+								<!-- Simple list -->
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h5 class="panel-title text-everteam">
+											<i class="icon-office mr-5"></i>
+											Workgroup and Committee
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h5>
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="collapse"></a></li>
+												<li><a data-action="reload"></a></li>
+												<li><a data-action="close"></a></li>
+											</ul>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<!-- <li class="media-header">Team leaders</li> -->
+											<!-- ng-repeat="user in meeting.attendees" -->
+											<li class="media" ng-repeat="user in workgroups">
+												<div class="media-left media-middle">
+													<a href="#">
+														<img src="assets/images/placeholder.jpg" class="img-circle img-md" alt="">
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading text-semibold">
+														{{user.first_name}}
+														<!-- <span>.</span> -->
+														<!-- <span class="text-everteam"></span> -->
+													</div>
+													<span class="text-muted">{{user.email}} . {{user.last_name}}</span>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+								<!-- /simple list -->
+							</div>
+
+						</div>
+
+						<div class="row flex mt-10">
+
+							<div class="col-xs-6">
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h6 class="panel-title text-everteam">
+											<i class="icon-indent-increase2 mr-5"></i>
+											Decisions and Discussions
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h6>
+										<div class="heading-elements">
+											<span class="label label-success heading-text">{{meeting.topics.length}} Topics</span>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<li class="media" ng-repeat="topic in meeting.topics">
+												<a href="#" class="media-left">
+													<i class="icon-seven-segment-{{$index +1}}"></i>
+													<!-- <img src="assets/images/placeholder.jpg"
+														class="img-circle img-md" alt=""> -->
+												</a>
+												<div class="media-body">
+													<a href="#" class="media-heading text-semibold text-default text-capitalize">{{topic.topic}}</a>
+													<span class="text-size-small text-muted display-block">
+														<!-- <span class="status-mark border-success position-left"></span> -->
+														<i class="icon-alarm-check text-muted" style="font-size: 13px;"></i>
+														{{topic.duration}} min
+
+														<span class="ml-10">
+															<span class="text-success">4</span>
+															<a href="#"><i class="icon-arrow-up22 text-success" style="font-weight: bolder;"></i></a>
+															<span class="text-danger">2</span>
+															<a href="#"><i class="icon-arrow-down22 text-danger" style="font-weight: bolder;"></i></a>
+														</span>
+
+													</span>
+												</div>
+												<div class="media-right media-middle">
+													<!-- <ul class="icons-list">
+														<li class="dropdown">
+															<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+																<i class="icon-cog7"></i>
+																<span class="caret"></span>
+															</a>
+
+															<ul class="dropdown-menu dropdown-menu-solid">
+																<li class="dropdown-header">Options</li>
+																<li><a href="#"><i class="icon-pencil7"></i>Edit entry</a></li>
+																<li><a href="#"><i class="icon-bin"></i>Remove entry</a></li>
+																<li class="dropdown-header">Export</li>
+																<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+																<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+																<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+															</ul>
+														</li>
+													</ul> -->
+													<ul class="icons-list text-nowrap">
+														<li><a href="javascript:void(0)"><i class="icon-download7 mr-5"></i></a></li>
+														<li><a href="javascript:void(0)"><i class="icon-menu7"></i></a></li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-6">
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h6 class="panel-title text-everteam">
+											<i class="icon-indent-increase2 mr-5"></i>
+											Todo
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h6>
+										<div class="heading-elements">
+											<span class="label label-success heading-text">{{meeting.todos.length}} Todo</span>
+										</div>
+									</div>
+
+									<div class="panel-body">
+
+										<div ng-if="!meeting.todos.length" class="no_records">No todo was added</div>
+										<div class="panel panel-body p-10 mb-5" ng-repeat="todo in meeting.todos" style="background-color: #f5f5f5;">
+											<div class="media">
+												<div class="media-body">
+													<h6 class="media-heading text-capitalize" style="margin-top: 7px;">{{todo.title}}</h6>
+												</div>
+
+												<div class="media-right media-middle">
+													<ul class="icons-list flex">
+														<li class="flex" style="display: flex;">
+															<a href="#" ng-repeat="user in todo.users"><img src="assets/images/{{user.imgsrc}}" class="img-circle img-xs mr-5" alt=""></a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+			const queryString = window.location.search;
+
+			const urlParams = new URLSearchParams(queryString);
+
+			const meetingId = urlParams.get('meeting_id');
+			const userId = urlParams.get('user_id');
+
+			$scope.meeting = getMeeting(meetingId);
+
+			$scope.navigateToMeeting = function () {
+				window.location.href = `meeting.html?meeting_id=${meetingId}`
+			}
+
+			$scope.accept = function () {
+				console.log($scope.meeting);
+				$scope.meeting.approvals[userId].approved = true;
+				$scope.meeting.approvals[userId].date = new Date();
+				updateMeeting($scope.meeting);
+
+				Swal.fire({
+					title: 'Meeting approved.',
+					icon: 'success',
+					confirmButtonText: 'Ok'
+				}).then(function () {
+					window.location.href = `approvals_List.html?user_id=${userId}`;
+				})
+			}
+
+			$scope.reject = function () {
+				$scope.meeting.approvals[userId].approved = false;
+				$scope.meeting.approvals[userId].date = new Date();
+				updateMeeting($scope.meeting);
+
+				Swal.fire({
+					title: 'Meeting rejected.',
+					icon: 'success',
+					confirmButtonText: 'Ok'
+				}).then(function () {
+					window.location.href = `approvals_List.html?user_id=${userId}`;
+				})
+			}
+
+			$scope.cancel = function () {
+				window.location.href = `approvals_List.html?user_id=${userId}`;
+			}
+
+
+			console.log($scope.meeting);
+
+			// ---------------------
+			// USERS - ATTANDEES
+			// ---------------------
+			let users = getUsers();
+			$scope.attendees = [];
+			$scope.meeting.attendees.forEach(function (value) {
+				let index = users.findIndex(u => u.id == value);
+
+				if (index > -1)
+					$scope.attendees.push(users[index])
+			})
+
+			// ---------------------
+			// WORKGROUPS
+			// ---------------------
+			let workgroups = getWorkgroups();
+			$scope.workgroups = [];
+			$scope.meeting.workgroups.forEach(function (value) {
+				let index = workgroups.findIndex(u => u.id == value);
+
+				if (index > -1)
+					$scope.workgroups.push(workgroups[index])
+			})
+		});
+	</script>
+
+
+
+
+</body>
+
+</html>

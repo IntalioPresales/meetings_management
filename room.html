@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/custom_room.js"></script>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.timeline-date {
+			text-align: left;
+			font-size: 15px;
+			margin: 0;
+		}
+
+		.timeline-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.timeline-icon i {
+			/* margin-top: 2px; */
+			font-size: 20px;
+		}
+
+		.pointer {
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Room Management</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Room 301</a></li>
+					<li><a href="#">Dashboard</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<div class="sidebar sidebar-secondary sidebar-default">
+				<div ng-include="'./reusable_components/room_sidebar.html'"></div>
+			</div>
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="panel panel-body bg-blue-400 has-bg-image">
+							<div class="media no-margin">
+								<div class="media-body">
+									<h3 class="no-margin">18</h3>
+									<span class="text-uppercase text-size-mini">Booked meetings</span>
+								</div>
+
+								<div class="media-right media-middle">
+									<i class="icon-enter6 icon-3x opacity-75"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-md-3">
+						<div class="panel panel-body bg-danger-400 has-bg-image">
+							<div class="media no-margin">
+								<div class="media-body">
+									<h3 class="no-margin">4</h3>
+									<span class="text-uppercase text-size-mini">Today's meetings</span>
+								</div>
+
+								<div class="media-right media-middle">
+									<i class="icon-presentation icon-3x opacity-75"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-md-3">
+						<div class="panel panel-body bg-indigo-400 has-bg-image">
+							<div class="media no-margin">
+								<div class="media-body">
+									<h3 class="no-margin">1</h3>
+									<span class="text-uppercase text-size-mini">Today's Maintenance</span>
+								</div>
+
+								<div class="media-right media-middle">
+									<i class="icon-paint-format icon-3x opacity-75"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-md-3">
+						<div class="panel panel-body bg-success-400 has-bg-image">
+							<div class="media no-margin">
+								<div class="media-body">
+									<h3 class="no-margin">46</h3>
+									<span class="text-uppercase text-size-mini">Today's Participants</span>
+								</div>
+
+								<div class="media-right media-middle">
+									<i class="icon-users2 icon-3x opacity-75"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- CONTAINER -->
+				<div class="mt-15 row">
+
+					<div class="col-xs-6">
+
+						<div class="row flex">
+
+							<div class="col-xs-6">
+								<!-- Satisfaction rate -->
+								<div class="panel panel-body text-center">
+									<div class="svg-center position-relative" id="progress_icon_one"></div>
+									<h2 class="progress-percentage mt-15 mb-5 text-semibold">0%</h2>
+									Satisfaction rate
+									<div class="text-size-small text-muted">54% average</div>
+								</div>
+								<!-- /satisfaction rate -->
+							</div>
+
+							<div class="col-xs-6">
+								<!-- Productivity goal  -->
+								<div class="panel panel-body text-center">
+									<div class="svg-center position-relative" id="progress_icon_two"></div>
+									<h2 class="progress-percentage mt-15 mb-5 text-semibold">0%</h2>
+
+									Productivity goal
+									<div class="text-size-small text-muted">87% average</div>
+								</div>
+								<!-- /productivity goal -->
+
+							</div>
+						</div>
+
+
+						<div class="row flex">
+
+							<div class="col-xs-6">
+								<!-- Segmented gauge -->
+								<div class="panel panel-body text-center full_height">
+									<h6 class="text-semibold no-margin-bottom mt-5">Room Usage</h6>
+									<div class="text-size-small text-muted content-group-sm">49% average</div>
+
+									<div class="svg-center" id="segmented_gauge"></div>
+								</div>
+								<!-- /segmented gauge -->
+							</div>
+
+							<div class="col-xs-6">
+
+								<!-- Donut with details -->
+								<div class="panel panel-body text-center full_height">
+									<h6 class="text-semibold no-margin-bottom mt-5">Maintenance</h6>
+									<div class="text-size-small text-muted content-group-sm">Current Month</div>
+
+									<div class="svg-center" id="donut_basic_details"></div>
+								</div>
+								<!-- /donut with details -->
+							</div>
+						</div>
+
+					</div>
+
+					<div class="timeline timeline-left col-xs-6">
+						<div class="timeline-container">
+
+							<div class="timeline-date text-muted">
+								<i class="icon-history position-left"></i> <span class="text-semibold">TODAY</span>
+							</div>
+
+							<div class="timeline-row">
+								<div class="timeline-icon bg-indigo-400">
+									<i class="icon-presentation"></i>
+									<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="panel border-left-lg border-left-primary timeline-content">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin-top"><a href="javascript:void(0)">Q3 2020 Earnings Release </a></h6>
+														<p class="mb-15">When Gregor Samsa woke from troubled..</p>
+
+														<a href="#"><img src="assets/images/av1.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av2.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av3.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#" class="text-default">&nbsp;<i class="icon-plus22"></i></a>
+													</div>
+
+													<div class="col-md-4">
+														<ul class="list task-details">
+															<li><i class="icon-watch2"></i> 10:30 AM - 12:00 AM</li>
+															<li><i class="icon-location3"></i> Main Building, Floor 1th</li>
+															<li><a href="#">By Hasan Rifaii</a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="panel-footer panel-footer-condensed">
+												<div class="heading-elements">
+													<span class="heading-text">Start within: <span class="text-semibold">30 min</span></span>
+
+													<ul class="list-inline list-inline-condensed heading-text pull-right">
+														<li class="dropdown">
+															<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+															<ul class="dropdown-menu dropdown-menu-right">
+																<li><a href="#"><i class="icon-alarm-add"></i> Notify me</a></li>
+																<li><a href="#"><i class="icon-alert"></i> I will be late</a></li>
+																<li class="divider"></li>
+																<li><a href="#"><i class="icon-pencil7"></i> I will not attend</a></li>
+															</ul>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<!-- CLEANING -->
+							<div class="timeline-row">
+								<div class="timeline-icon bg-blue-400">
+									<i class="icon-brush"></i>
+									<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="panel border-left-lg border-left-primary timeline-content">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin">
+															<h3 class="no-margin" style="color: #9c9c9c; font-weight: 500;">
+																<i class="icon-brush" style="font-size: 22px;"></i>
+																<span class="pointer">Cleaning</span>
+															</h3>
+														</h6>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- CLEANING -->
+
+							<div class="timeline-row">
+								<div class="timeline-icon bg-indigo-400">
+									<i class="icon-presentation"></i>
+									<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="panel border-left-lg border-left-primary timeline-content">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin-top"><a href="javascript:void(0)">Weekly Investor Conferences </a></h6>
+														<p class="mb-15">Roth Conferences</p>
+
+														<a href="#"><img src="assets/images/av5.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av6.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av7.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#" class="text-default">&nbsp;<i class="icon-plus22"></i></a>
+													</div>
+
+													<div class="col-md-4">
+														<ul class="list task-details">
+															<li><i class="icon-watch2"></i> 01:30 PM - 02:00 PM</li>
+															<li><i class="icon-location3"></i> Main Building, Floor 1th</li>
+															<li><a href="#">By Mazen Farah</a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="panel-footer panel-footer-condensed">
+												<div class="heading-elements">
+													<span class="heading-text">Start within: <span class="text-semibold">30 min</span></span>
+
+													<ul class="list-inline list-inline-condensed heading-text pull-right">
+														<li class="dropdown">
+															<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+															<ul class="dropdown-menu dropdown-menu-right">
+																<li><a href="#"><i class="icon-alarm-add"></i> Notify me</a></li>
+																<li><a href="#"><i class="icon-alert"></i> I will be late</a></li>
+																<li class="divider"></li>
+																<li><a href="#"><i class="icon-pencil7"></i> I will not attend</a></li>
+															</ul>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<!-- EVENT ADD -->
+							<div class="timeline-row">
+								<div class="timeline-icon bg-blue-400">
+									<i class="icon-plus-circle2"></i>
+									<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="panel border-left-lg border-left-primary timeline-content">
+											<div class="panel-body" >
+												<div class="row">
+													<div class="col-md-8">
+
+														<h6 class="no-margin" >
+															<h3 class="no-margin" onclick="meet()" style="color: #9c9c9c; font-weight: 500;">
+																<i class="icon-plus3" style="font-size: 22px;"></i>
+																<span class="pointer">Add Meeting</span>
+															</h3>
+														</h6>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- EVENT ADD -->
+
+							<div class="timeline-date text-muted">
+								<i class="icon-history position-left"></i> <span class="text-semibold">THIS WEEK</span>
+							</div>
+
+							<div class="timeline-row">
+								<div class="timeline-icon bg-indigo-400">
+									<i class="icon-presentation"></i>
+									<!-- <img src="assets/images/placeholder.jpg" alt=""> -->
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="panel border-left-lg border-left-primary timeline-content">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin-top"><a href="javascript:void(0)">Q3 2021 Earnings Release </a></h6>
+														<p class="mb-15">When Gregor Samsa woke from troubled..</p>
+
+														<a href="#"><img src="assets/images/av1.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av2.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#"><img src="assets/images/av3.jpg" class="img-circle img-xs" alt=""></a>
+														<a href="#" class="text-default">&nbsp;<i class="icon-plus22"></i></a>
+													</div>
+
+													<div class="col-md-4">
+														<ul class="list task-details">
+															<li><i class="icon-watch2"></i> 10:30 AM - 12:00 AM</li>
+															<li><i class="icon-location3"></i> Main Building, Floor 1th</li>
+															<li><a href="#">By Hasan Rifaii</a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="panel-footer panel-footer-condensed">
+												<div class="heading-elements">
+													<span class="heading-text">Start within: <span class="text-semibold">30 min</span></span>
+
+													<ul class="list-inline list-inline-condensed heading-text pull-right">
+														<li class="dropdown">
+															<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+															<ul class="dropdown-menu dropdown-menu-right">
+																<li><a href="#"><i class="icon-alarm-add"></i> Notify me</a></li>
+																<li><a href="#"><i class="icon-alert"></i> I will be late</a></li>
+																<li class="divider"></li>
+																<li><a href="#"><i class="icon-pencil7"></i> I will not attend</a></li>
+															</ul>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- / CONTAINER -->
+
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+		});
+
+	</script>
+
+	<script>
+		function meet(){
+			console.log(":asd");
+			window.location.href = 'new_meeting.html'
+		}
+	</script>
+
+</body>
+
+</html>

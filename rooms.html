@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/custom_rooms.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.room_badge {
+			padding: 8px 3px;
+			height: 35px;
+			width: 35px;
+			font-size: 12px;
+			font-weight: 700;
+			margin: 0;
+		}
+
+		.label_equip {
+			padding: 5px 8px;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Rooms</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">List</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<!-- Striped rows -->
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h5 class="panel-title">Rooms</h5>
+						<div class="heading-elements">
+							<ul class="icons-list">
+								<li><a data-action="collapse"></a></li>
+								<li><a data-action="reload"></a></li>
+								<li><a data-action="close"></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<table class="table datatable-basic table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Room</th>
+								<th>Seats</th>
+								<th>Location</th>
+								<th>Equipment</th>
+								<th>Status</th>
+								<th class="text-center"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-warning text-warning room_badge">301</div>
+								</td>
+								<td>
+									<a href="room.html?room=301">Room 301</a>
+								</td>
+								<td>5 Seats</td>
+								<td> Main building, floor 1th</td>
+								<td>
+									<span class="label label-primary label_equip"><i class="icon-connection mr-5"></i>Wifi</span>
+									<span class="label label-primary label_equip"><i class="icon-mic2 mr-5"></i>Microphone</span>
+									<span class="label label-primary label_equip"><i class="icon-clapboard mr-5"></i>Presenter</span>
+									<span class="label label-primary label_equip"><i class="icon-tv mr-5"></i>TV</span>
+									<span class="label label-primary label_equip"><i class="icon-presentation mr-5"></i>Projector</span>
+								</td>
+								<td><span class="label label-warning">Occupied</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-success text-success room_badge">302</div>
+								</td>
+								<td>
+									<a href="room.html?room=302">Room 302</a>
+								</td>
+								<td>12 Seats</td>
+								<td> Main building, floor 2th</td>
+								<td>
+									<span class="label label-primary label_equip"><i class="icon-connection mr-5"></i>Wifi</span>
+									<span class="label label-primary label_equip"><i class="icon-tv mr-5"></i>TV</span>
+									<span class="label label-primary label_equip"><i class="icon-presentation mr-5"></i>Projector</span>
+								</td>
+								<td><span class="label label-success">Available</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-success text-success room_badge">303</div>
+								</td>
+								<td>
+									<a href="room.html?room=303">Room 303</a>
+								</td>
+								<td>15 Seats</td>
+								<td> Main building, floor 1th</td>
+								<td>
+									<span class="label label-primary label_equip"><i class="icon-connection mr-5"></i>Wifi</span>								
+									<span class="label label-primary label_equip"><i class="icon-tv mr-5"></i>TV</span>
+									<span class="label label-primary label_equip"><i class="icon-presentation mr-5"></i>Projector</span>
+								</td>
+								<td><span class="label label-success">Avaiable</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-success text-success room_badge">304</div>
+								</td>
+								<td>
+									<a href="room.html?room=304">Room 304</a>
+								</td>
+								<td>20 Seats</td>
+								<td> Main building, floor 2th</td>
+								<td>
+									<span class="label label-primary label_equip"><i class="icon-connection mr-5"></i>Wifi</span>
+									<span class="label label-primary label_equip"><i class="icon-mic2 mr-5"></i>Microphone</span>									
+								</td>
+								<td><span class="label label-success">Available</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-warning text-warning room_badge">306</div>
+								</td>
+								<td>
+									<a href="room.html?room=306">Room 306</a>
+								</td>
+								<td>35 Seats</td>
+								<td> Main building, floor 2th</td>
+								<td>
+									<span class="label label-primary label_equip"><i class="icon-connection mr-5"></i>Wifi</span>
+									<span class="label label-primary label_equip"><i class="icon-mic2 mr-5"></i>Microphone</span>
+									<span class="label label-primary label_equip"><i class="icon-clapboard mr-5"></i>Presenter</span>
+									<span class="label label-primary label_equip"><i class="icon-tv mr-5"></i>TV</span>
+									<span class="label label-primary label_equip"><i class="icon-presentation mr-5"></i>Projector</span>
+								</td>
+								<td><span class="label label-warning">Occupied</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;">
+									<div class="icon-object border-success text-success room_badge">307</div>
+								</td>
+								<td>
+									<a href="room.html?room=307">Room 307</a>
+								</td>
+								<td>8 Seats</td>
+								<td> Main building, floor 12th</td>
+								<td>									
+									<span class="label label-primary label_equip"><i class="icon-presentation mr-5"></i>Projector</span>
+								</td>
+								<td><span class="label label-success">Available</span></td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-file-pdf"></i> Open </a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Out of service</a></li>
+												<li><a href="#"><i class="icon-file-word"></i> Generate Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+				<!-- /striped rows -->
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+		});
+	</script>
+
+
+</body>
+
+</html>

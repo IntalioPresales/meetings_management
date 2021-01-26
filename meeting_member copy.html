@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/css/selectize.css" integrity="sha512-z6Bj6jn1DSP3yt+w49Uo2P9ZQIBO98TlcdLy3XOnpSKNc85uIOzhji/53sh7QBUy8luN5jIaE2Kt909aAJZzMw==" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/core.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/selectboxit.min.js"></script>
+
+	<script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+	<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+	<script type="text/javascript" src="assets/js/users_repository.js"></script>
+	<script type="text/javascript" src="assets/js/workgroups_repository.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		.employee_option img {
+			height: 35px;
+			border-radius: 50%;
+		}
+
+		.employee_option .box {
+			margin-left: 8px;
+		}
+
+		.employee_option .name {
+			font-size: 14px;
+			font-weight: 400;
+			padding-top: 4px;
+			padding-right: 3px;
+		}
+
+		.employee_option .email {
+			font-size: 12px;
+			color: #9c9b9b;
+			margin-top: -3px;
+		}
+
+		.selectize-dropdown {
+			padding: 6px 10px;
+		}
+
+		.selectize-dropdown [data-selectable] {
+			padding: 4px 9px;
+		}
+
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.user_img {
+			position: relative;
+		}
+
+		.user_img .badge {
+			position: absolute;
+			padding: 6px;
+			left: -6px;
+			display: block;
+		}
+
+		.pan-box.pan {
+			padding: 15px;
+			width: 100%;
+			background-color: #fff;
+			box-shadow: 0 1px 1px #c1c1c1;
+			min-height: 100px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.pan-box .pan-header {
+			margin: 0 0 10px;
+			font-size: 16px;
+			font-weight: 500;
+			text-transform: capitalize;
+		}
+
+		.pan-box textarea {
+			border: 1px solid #d5d5d5;
+		}
+
+		.pan-box .btns {
+			margin-top: 10px;
+			flex-direction: row;
+			box-sizing: border-box;
+			display: flex;
+			place-content: flex-start space-between;
+			align-items: flex-start;
+		}
+
+		.pan-box .e-btn {
+			border: 1px solid rgba(0, 0, 0, .12);
+			padding: 5px 15px;
+			color: #646464;
+			font-size: 15px;
+			cursor: pointer;
+		}
+
+		.pan-box .owner-label {
+			min-width: 50px;
+			font-size: 13px;
+			margin-top: 10px;
+			font-weight: 400;
+		}
+
+		.pan-box .owner-name {
+			color: #aa9850;
+			text-decoration: underline;
+			font-size: 13px;
+			margin-top: 10px;
+			font-weight: 400;
+		}
+
+		.pan-box .vote-up {
+			font-weight: 400;
+			color: #4cc17e;
+			height: 22px;
+		}
+
+		.pan-box .vote-up div {
+			font-size: 15px;
+			font-weight: 500;
+			margin-left: 2px;
+
+			flex-direction: row;
+			box-sizing: border-box;
+			display: flex;
+			place-content: center flex-start;
+			align-items: center;
+		}
+
+		.pan-box .vote-down {
+			font-weight: 400;
+			color: #c37878;
+			height: 22px;
+
+			padding-top: 2px;
+			flex-direction: row;
+			box-sizing: border-box;
+			display: flex;
+			place-content: center flex-start;
+			align-items: center;
+		}
+
+		.pan-box .vote-down div {
+			font-size: 15px;
+			font-weight: 500;
+			margin-left: 3px;
+		}
+
+		.pan-box .foot_ {
+			/* flex-direction: row;
+			box-sizing: border-box;
+			display: flex;
+			place-content: flex-start;
+			align-items: flex-start; */
+		}
+
+		.mt-0 {
+			margin-top: 0;
+		}
+
+		.topic_muted {
+			color: #bababa;
+		}
+
+		.topic_active {
+			background-color: #00796b !important;
+			color: #fff;
+			font-weight: 600;
+		}
+
+		.topic_active .media-heading {
+			font-weight: 800;
+		}
+
+		.new_topic_label {
+			text-align: center;
+			color: #3883db;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar_member.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar_member.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Meeting</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Meetings</a></li>
+					<li><a href="#">Meeting</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<div class="row">
+					<div class="col-xs-9">
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="panel panel-body p-15 mb-10" ng-class="{'topic_active': topic.active}" ng-repeat="topic in meeting.topics track by $index">
+									<div class="media" ng-class="{'topic_muted':topic.completed}">
+										<div class="media-body">
+											<h6 class="media-heading text-capitalize">{{topic.topic}}</h6>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list flex">
+												<li style="width: 30px;">{{topic.duration }} m</li>
+												<li>
+													<i ng-click='topicCompleted($index)'
+														class="icon-checkmark"
+														ng-class="{'text-success': topic.completed}">
+													</i>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div data-toggle="modal" data-target="#new_topic" class="new_topic_label"> <i class="icon-plus2"></i>Add new topic</div>
+							</div>
+
+							<div class="col-xs-6">
+
+								<div class="pan-box pan">
+
+									<div class="pan-header text-everteam">
+										<i class="icon-stack-check mr-5"></i>
+										{{activeTopic.topic}}
+									</div>
+									<textarea class="form-control" placeholder="Note" rows="3"></textarea>
+									<div class="btns">
+										<div class="e-btn " data-toggle="modal" data-target="#new_todo">
+											<i class="icon-user-check"></i>
+											To-do
+										</div>
+										<div class="e-btn">
+											<i class="icon-checkmark"></i>
+											Resolve
+										</div>
+									</div>
+									<div class="flex">
+										<div class="owner-label">Owner:</div>
+										<div class="owner-name">{{activeTopic.owner}}</div>
+									</div>
+
+									<div class="mt-2 flex align-end">
+										<div class="owner-label mt-0">Voting: </div>
+										<span class="ml-10">
+											<span class="text-success">{{activeTopic.voteUp}}</span>
+											<a href="javascript:void(0)" ng-click="voteUp()"><i class="icon-arrow-up22 text-success" style="font-weight: bolder;"></i></a>
+											<span class="text-danger">{{activeTopic.voteDown}}</span>
+											<a href="javascript:void(0)" ng-click="voteDown()"><i class="icon-arrow-down22 text-danger" style="font-weight: bolder;"></i></a>
+										</span>
+										<!-- <div class="mr-3 vote-up">
+											<div>1</div>
+										</div>
+										<div class="vote-down" fxLayout="row" fxLayoutAlign="start center" style="padding-top: 2px;">
+											<div>2</div>
+										</div> -->
+
+										<div style="margin-left: auto; font-size: 20px;  color: #686868;">
+											<!-- <mdb-icon class="icon-file" style="cursor: pointer;" fas icon="file-alt" (click)="onOpenDocument()"></mdb-icon> -->
+											<i class="icon-download text-everteam" style="font-size: 22px;"></i>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-3">
+
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title text-everteam">
+									<i class="icon-watch position-left mr-5"></i>
+									TIMER
+									<a class="heading-elements-toggle"><i class="icon-more"></i></a><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+								</h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+
+
+								<ul class="timer mb-10">
+									<li>
+										{{hour}} <span>hours</span>
+									</li>
+									<li class="dots">:</li>
+									<li>
+										{{minute}} <span>minutes</span>
+									</li>
+									<li class="dots">:</li>
+									<li>
+										{{seconds}} <span>seconds</span>
+									</li>
+								</ul>
+							</div>
+
+							<div class="panel-footer panel-footer-transparent"><a class="heading-elements-toggle"><i class="icon-more"></i></a><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+								<div class="heading-elements flex justify-center">
+									<ul class="list-inline list-inline-condensed heading-text no-margin ml-15">
+										<li><a href="javascript:void(0)" ng-click="navigateToMeeting()" class="text-default">
+												<!-- <button ng-if="!meetingRunning && !meetingEnded" type="button" ng-click="startMeeting()" class="btn bg-teal-400 btn-labeled btn-rounded btn-xs">
+													<b>
+														<i class="icon-play3"></i>
+													</b> Start Meeting
+												</button>
+
+												<button ng-if="meetingRunning" type="button" ng-click="endMeeting()" class="btn bg-indigo-400 btn-labeled btn-rounded btn-xs">
+													<b>
+														<i class="icon-close2"></i>
+													</b> End Meeting
+												</button>
+
+												<button ng-if="meetingEnded" type="button" ng-click="exitMeeting()" class="btn bg-indigo-400 btn-labeled btn-rounded btn-xs">
+													<b>
+														<i class="icon-exit"></i>
+													</b> Exit
+												</button> -->
+											</a>
+
+										</li>
+									</ul>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-flat ">
+							<div class="panel-heading">
+								<h5 class="panel-title text-everteam">
+									<i class="icon-users mr-5"></i>
+									ATTENDEES
+									<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+								</h5>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list">
+									<!-- <li class="media-header">Team leaders</li> -->
+									<li class="media" ng-click="currentChat(user)" ng-repeat="user in attendees track by $index">
+										<div class="media-left media-middle user_img">
+											<span class="badge badge-success"></span>
+											<a href="#">
+												<img src="assets/images/{{user.imgsrc}}" class="img-circle img-md" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading text-semibold">
+												{{user.first_name}} {{user.last_name}}
+												<span>.</span>
+												<span ng-show="random[$index]" class="badge badge-primary" style="padding: 1px 11px;"><span> {{$index + 2}} New messages</span></span>
+												<!-- <span class="text-everteam">Invitation Accepted</span> -->
+											</div>
+											<span class="text-muted">{{user.occupation}} . {{user.email}}</span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list icons-list-extended text-nowrap ">
+												<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#call" data-original-title="Call"><i class="icon-phone2"></i></a></li>
+												<li>
+													<a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#chat" data-original-title="Chat">
+														<i class="icon-comment"></i>
+													</a>
+												</li>
+												<li><a href="#" data-popup="tooltip" title=""><i class="icon-hand text-muted"></i></a></li>
+											</ul>
+										</div>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">
+									<div class="media-left media-middle user_img" style="display: inline; padding-right: 0;" ng-show="selectedUser.imgsrc">
+										<span class="badge badge-success"></span>
+										<a href="#">
+											<img src="assets/images/{{selectedUser.imgsrc}}" class="img-circle img-md" style="max-height: 35px;" alt="">
+										</a>
+									</div>
+									{{selectedUser.first_name}} {{selectedUser.last_name || ''}}
+								</h6>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list chat-list content-group">
+
+									<li class="media reversed" ng-repeat="message in selectedUser.chat">
+										<div class="media-body">
+											<div class="media-content">{{message}}</div>
+											<span class="media-annotation display-block mt-10">1 minute ago</span>
+										</div>
+
+										<div class="media-right">
+											<a href="assets/images/placeholder.jpg">
+												<img src="assets/images/av1.jpg" class="img-circle img-md" alt="">
+											</a>
+										</div>
+									</li>
+
+									<li class="media reversed" ng-if='!selectedUser.chat'>
+										<div class="media-body">
+											<div class="media-content">Satisfactorily strenuously while sleazily</div>
+											<span class="media-annotation display-block mt-10">15 minutes ago</span>
+										</div>
+
+										<div class="media-right">
+											<a href="assets/images/placeholder.jpg">
+												<img src="assets/images/av1.jpg" class="img-circle img-md" alt="">
+											</a>
+										</div>
+									</li>
+
+									<li class="media" ng-if='!selectedUser.chat'>
+										<div class="media-left">
+											<a href="assets/images/placeholder.jpg">
+												<img src="assets/images/av2.jpg" class="img-circle img-md" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-content">Grunted smirked and grew.</div>
+											<span class="media-annotation display-block mt-10">13 minutes ago</span>
+										</div>
+									</li>
+
+									<li class="media reversed">
+										<div class="media-body">
+											<div class="media-content"><i class="icon-menu display-block"></i></div>
+										</div>
+
+										<div class="media-right">
+											<a href="assets/images/placeholder.jpg">
+												<img src="assets/images/av1.jpg" class="img-circle img-md" alt="">
+											</a>
+										</div>
+									</li>
+								</ul>
+
+								<textarea name="enter-message" class="form-control content-group" rows="3" cols="1" placeholder="Enter your message..."></textarea>
+
+								<div class="row">
+									<div class="col-xs-6">
+										<ul class="icons-list icons-list-extended mt-10">
+											<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send photo"><i class="icon-file-picture"></i></a></li>
+											<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send video"><i class="icon-file-video"></i></a></li>
+											<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send file"><i class="icon-file-plus"></i></a></li>
+										</ul>
+									</div>
+
+									<div class="col-xs-6 text-right">
+										<button type="button" class="btn bg-teal-400 btn-labeled btn-labeled-right"><b><i class="icon-circle-right2"></i></b> Send</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="content-group">
+							<div class="row row-seamless btn-block-group">
+								<div class="col-xs-6">
+									<button type="button" onclick="support()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-lifebuoy text-blue"></i>
+										<span>SUPPORT</span>
+									</button>
+
+									<button type="button" onclick="services()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-cube2 text-indigo"></i>
+										<span>SERVICES</span>
+									</button>
+
+									<button type="button" onclick="cleaning()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-brush text-warning-400"></i>
+										<span>CLEANING</span>
+									</button>
+								</div>
+
+								<div class="col-xs-6">
+									<button type="button" onclick="beverage()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-cup2 text-blue"></i>
+										<span>BEVERAGE</span>
+									</button>
+
+									<button type="button" onclick="host()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-comment text-indigo"></i>
+										<span>MESSAGE HOST</span>
+									</button>
+
+									<button type="button" onclick="emergency()" class="btn btn-default btn-block btn-float btn-float-lg">
+										<i class="icon-alert text-warning-400"></i>
+										<span>EMERGENCY</span>
+									</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<!-- New Topic -->
+	<div id="new_topic" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">New Topic</h5>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Topic:</label>
+						<input type="text" class="form-control" placeholder="Topic" ng-model="newTopic.topic">
+					</div>
+
+					<div class="form-group">
+						<label>Duration:</label>
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="duration" value="5" ng-model="newTopic.duration">
+							<span class="input-group-addon">min</span>
+						</div>
+					</div>
+
+					<div class="form-group" style="min-width: 200px; margin: 0;">
+						<select class="selectbox" placeholder="Owner" ng-model="newTopic.owner">
+							<option value="john" data-iconurl="assets/images/av2.jpg">
+								John Carter
+							</option>
+							<option value="eugene" data-iconurl="assets/images/av1.jpg">
+								Richard Voln
+							</option>
+							<option value="barnaba" data-iconurl="assets/images/av2.jpg">
+								Barnaba Losey
+							</option>
+							<option value="lucy" data-iconurl="assets/images/av4.jpg">
+								Jif Abernatti
+							</option>
+						</select>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" class="styled" ng-model="newTopic.voting">
+							Voting
+						</label>
+					</div>
+
+					<div>
+						<input type="file"
+							class="filepond"
+							name="filepond"
+							data-index="{{$index}}"
+							data-max-file-size="3MB"
+							data-max-files="3"
+							ng-change="topicAttachmentChange($event)"
+							ng-model="meeting.note" />
+					</div>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="addTopic()">Save </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /basic modal -->
+
+	<!-- Todo -->
+	<div id="new_todo" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">To-do</h5>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Note:</label>
+						<!-- <input type="text" class="form-control" placeholder="Topic" ng-model="newTopic.topic"> -->
+						<textarea class="form-control"></textarea>
+					</div>
+
+					<div class="form-group">
+						<label>Deadline:</label>
+						<input type="date" class="form-control" placeholder="Date">
+					</div>
+
+					<div class="form-group">
+						<label>Enrolled users:</label>
+						<select id="select-employee" class="contacts emp_field" placeholder="Enrolled users"></select>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="addTodo()">Save </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Todo -->
+
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+			$scope.meetingRunning = false;
+			$scope.meetingEnded = false;
+			$scope.random = [0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1];
+			$scope.selectedUser = { first_name: "Meeting Room Chat" }
+			let chat = [
+				['members found that the text messages improved their overall knowledge', '33% completion rate'],
+				['It’s 1:00. When did our prospect ', 'on this conference call?'],
+				['Did I just hear him say that ', 'he was late'],
+				['We’ll need to change our agenda a bit', 'hy don’t you ask him what he thought']
+			];
+			$scope.hour = 0;
+			$scope.minute = 0;
+			$scope.seconds = 0;
+			$scope.newTopic = {};
+
+
+			function uuid4() {
+				return Date.now().toString(36) + Math.random().toString(36).substring(2);
+			}
+
+
+			$scope.addTopic = function () {
+
+				$scope.meeting.topics.push({
+					id: uuid4(),
+					duration: $scope.newTopic.duration,
+					owner: $scope.newTopic.owner,
+					topic: $scope.newTopic.topic,
+					attachment: null,
+					voteUp: 0,
+					voteDown: 0,
+					votedDown: false,
+					votedUp: false,
+					completed: false,
+					active: false,
+				})
+				// console.log($scope.meeting.topics)
+				updateMeeting($scope.meeting)
+
+				Swal.fire({
+					title: 'New topic created.',
+					// text: 'Please a meeting title',
+					icon: 'success',
+					confirmButtonText: 'Ok'
+				}).then(function () {
+					$('#new_topic').modal('hide');
+				})
+			}
+
+			$scope.addTodo = function () {
+				Swal.fire({
+					title: 'New todo created.',
+					// text: 'Please a meeting title',
+					icon: 'success',
+					confirmButtonText: 'Ok'
+				}).then(function () {
+					$('#new_todo').modal('hide');
+				})
+			}
+
+			$scope.startMeeting = function () {
+				$scope.meetingRunning = true;
+
+				setInterval(() => {
+					if (!$scope.meetingRunning) return;
+					$scope.$apply(function () {
+						if ($scope.seconds >= 60)
+							$scope.seconds = 0;
+						$scope.seconds = $scope.seconds + 1;
+					});
+				}, 1000);
+
+				setInterval(() => {
+					if (!$scope.meetingRunning) return;
+
+					$scope.$apply(function () {
+						if ($scope.minute >= 60)
+							$scope.minute = 0;
+						$scope.minute = $scope.minute + 1;
+					});
+				}, 60000);
+
+				setInterval(() => {
+					if (!$scope.meetingRunning) return;
+					$scope.$apply(function () {
+						$scope.hour = $scope.hour + 1;
+					});
+				}, 3600000);
+			}
+
+			$scope.endMeeting = function () {
+				$scope.meetingRunning = false;
+				$scope.meetingEnded = true;
+			}
+
+			$scope.exitMeeting = function () {
+				window.location.href = 'calendar.html'
+			}
+
+
+			const queryString = window.location.search;
+
+			const urlParams = new URLSearchParams(queryString);
+
+			const meetingId = urlParams.get('meeting_id');
+
+			$scope.meeting = getMeeting(meetingId);
+
+			// ---------------------
+			// USERS - ATTANDEES
+			// ---------------------
+			let users = getUsers();
+			$scope.attendees = [];
+			$scope.meeting.attendees.forEach(function (value) {
+				let index = users.findIndex(u => u.id == value);
+
+				if (index > -1)
+					$scope.attendees.push(users[index])
+			})
+
+			$scope.currentChat = function (user) {
+				let rdm = getRandomNumberBetween(1, 4)
+				user['chat'] = chat[rdm];
+				$scope.selectedUser = user;
+			}
+
+			$scope.randomNumber = function (min, max) {
+				let num = getRandomNumberBetween(min, max)
+			}
+
+			$scope.randomBoolean = function () {
+				return Math.random();
+				// return true
+			}
+
+			$scope.topicCompleted = function (index) {
+				if ($scope.meeting.topics[index].completed == true) return null;
+
+				$scope.meeting.topics[index].completed = true;
+				$scope.meeting.topics[index].active = false;
+				$scope.meeting.topics[index + 1].active = true;
+				$scope.activeTopic = $scope.meeting.topics[index + 1];
+				updateMeeting($scope.meeting);
+				$scope.timeCountDown(index)
+			}
+
+			$scope.timeCountDown = function (index) {
+				let duration = +$scope.meeting.topics[index].duration;
+
+				window.setInterval(function () {
+					if ($scope.meeting.topics[index].duration >= 1) {
+						$scope.meeting.topics[index].duration = +$scope.meeting.topics[index].duration - 1;
+					}
+					$scope.$apply();
+				}, 1000);
+			}
+
+			$scope.activeTopic;
+
+			$scope.meeting.topics.forEach(function (topic) {
+				if (topic.active == true)
+					$scope.activeTopic = topic
+			})
+
+			$scope.voteDown = function () {
+				let topicIndex = $scope.meeting.topics.findIndex(t => t.id == $scope.activeTopic.id);
+				if (topicIndex > -1 && $scope.meeting.topics[topicIndex].votedDown == false) {
+					$scope.meeting.topics[topicIndex].voteDown += 1;
+					$scope.meeting.topics[topicIndex].votedDown = true
+
+				}
+			}
+
+			$scope.voteUp = function () {
+				let topicIndex = $scope.meeting.topics.findIndex(t => t.id == $scope.activeTopic.id);
+
+				if (topicIndex > -1 && $scope.meeting.topics[topicIndex].votedUp == false) {
+					$scope.meeting.topics[topicIndex].voteUp = $scope.meeting.topics[topicIndex].voteUp + 1;
+					$scope.meeting.topics[topicIndex].votedUp = true
+				}
+			}
+
+			updateMeeting($scope.meeting)
+		});
+
+	</script>
+
+	<script>
+		const users = [
+			{ email: 'Ralph@intalio.com', first_name: 'Ralph', last_name: 'Glover', imgsrc: "av1.jpg", id: 1 },
+			{ email: 'Willa@intalio.com', first_name: 'Willa', last_name: 'Austin', imgsrc: "av2.jpg", id: 2 },
+			{ email: 'Hazel@intalio.com', first_name: 'Hazel', last_name: 'Gill', imgsrc: "av5.jpg", id: 3 },
+		]
+
+
+		var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+			'(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+
+		var formatName = function (item) {
+			return $.trim((item.first_name || '') + ' ' + (item.last_name || ''));
+		};
+
+		$(document).ready(function () {
+
+			$(`.selectbox`).selectBoxIt({
+				autoWidth: false
+			});
+
+			$('#select-employee').selectize({
+				persist: false,
+				maxItems: null,
+				valueField: 'id',
+				labelField: 'name',
+				searchField: ['first_name', 'last_name', 'email'],
+				sortField: [
+					{ field: 'first_name', direction: 'asc' },
+					{ field: 'last_name', direction: 'asc' }
+				],
+				options: users,
+				render: {
+					item: function (item, escape) {
+						var name = formatName(item);
+						return '<div>' +
+							(name ? '<span class="name">' + escape(name) + '</span>' : '') +
+							(item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
+							'</div>';
+					},
+					option: function (item, escape) {
+						var name = formatName(item);
+						var label = name || item.first_name;
+						var caption = name ? item.email : null;
+						return `
+						<div class="employee_option" style="display:flex;">
+							<img src="assets/images/${item.imgsrc}">
+							<div class="box">
+								<div class="name">${item.first_name} ${item.last_name}</div>
+								<div class="email">${item.email}</div>
+							</div>
+						</div>
+					`;
+						return '<div>' +
+							'<span class="">123' + '</span>' +
+							(caption ? '<span class="caption">' + escape(caption) + '11</span>' : '') +
+							'</div>';
+					}
+				},
+				createFilter: function (input) {
+					var regexpA = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+					var regexpB = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+					return regexpA.test(input) || regexpB.test(input);
+				},
+				create: function (input) {
+					if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
+						return { email: input };
+					}
+					var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
+					if (match) {
+						var name = $.trim(match[1]);
+						var pos_space = name.indexOf(' ');
+						var first_name = name.substring(0, pos_space);
+						var last_name = name.substring(pos_space + 1);
+
+						return {
+							email: match[2],
+							first_name: first_name,
+							last_name: last_name
+						};
+					}
+					alert('Invalid email address.');
+					return false;
+				}
+			});
+
+
+			function renderFilepond(selector) {
+				FilePond.registerPlugin(FilePondPluginFileEncode);
+
+				// original input[type=file]
+				var input = document.querySelector(selector);
+
+				// upgrade file input to filepond
+				FilePond.create(input);
+
+				// $(selector).on('FilePond:addfile', function (e) {
+				//     console.log('FilePond ready for use', e);
+				//     let index = selector.split('-')[0]
+				// })
+			}
+
+			renderFilepond('.filepond')
+		})
+	</script>
+
+	<script>
+		function support() {
+			Swal.fire({
+				title: 'A support representative is on his way to your room..',
+				// text: 'Please a meeting title',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			})
+		}
+
+		function services() {
+			Swal.fire({
+				title: 'A Services representative is on his way to your room.',
+				// text: 'Please a meeting title',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			})
+		}
+
+		function cleaning() {
+			Swal.fire({
+				title: 'A Cleaner is on his way to your room.',
+				// text: 'Please a meeting title',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			})
+		}
+
+		function cleaning() {
+			Swal.fire({
+				title: 'A Barista is on his way to your room.',
+				// text: 'Please a meeting title',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			})
+		}
+
+		function emergency() {
+			Swal.fire({
+				title: 'Someone will arrive in 1 minutes.',
+				// text: 'Please a meeting title',
+				icon: 'success',
+				confirmButtonText: 'Ok',
+			})
+		}
+
+		
+		function host() {
+			Swal.fire({
+				title: 'Enter your message below',
+				// text: 'Please a meeting title',
+				input: 'text',
+				// icon: 'success',
+				confirmButtonText: 'Send',
+				showLoaderOnConfirm: true,
+				showCancelButton: true,
+			})
+		}
+
+		
+	</script>
+
+</body>
+
+</html>

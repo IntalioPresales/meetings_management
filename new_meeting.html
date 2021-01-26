@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet" type="text/css">
+	<link href="https://releases.transloadit.com/uppy/v1.23.3/uppy.min.css" rel="stylesheet">
+	<!-- /core JS files -->
+
+	<script src="https://smtpjs.com/v3/smtp.js"> </script>
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/notifications/jgrowl.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/anytime.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/legacy.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/notifications/pnotify.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/core.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/selectboxit.min.js"></script>
+
+	<script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+	<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+	<script src="https://releases.transloadit.com/uppy/v1.23.3/uppy.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/selectize.min.js" integrity="sha512-SCkKEdq76Y59bezh6C5QR+MY43MHDK0B/8TSGYCltL5UFhKlW1ak0GtONnIz2oONZ7Vxd0S8DrGyksuqzFknhA==" crossorigin="anonymous"></script> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/css/selectize.css" integrity="sha512-z6Bj6jn1DSP3yt+w49Uo2P9ZQIBO98TlcdLy3XOnpSKNc85uIOzhji/53sh7QBUy8luN5jIaE2Kt909aAJZzMw==" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/custom_new_meeting.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+	<script type="text/javascript" src="assets/js/sendMail.js"></script>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.multiselect-container.dropdown-menu .checkbox input {
+			margin-left: 12px;
+		}
+
+		.uploader .filename {
+			display: none;
+		}
+
+		.table>thead>tr>th,
+		.table>tbody>tr>th,
+		.table>tfoot>tr>th,
+		.table>thead>tr>td,
+		.table>tbody>tr>td,
+		.table>tfoot>tr>td {
+			padding: 8px;
+		}
+
+		.uppy-size--md .uppy-Dashboard-inner {
+			margin: auto;
+		}
+
+		.filepond--root {
+			height: 48px;
+			background: #f1f0ef;
+		}
+
+		.no_topic_found {
+			text-align: center;
+			color: #3883db;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+		}
+
+		.pointer {
+			cursor: pointer;
+		}
+
+		.employee_option img {
+			height: 35px;
+			border-radius: 50%;
+		}
+
+		.employee_option .box {
+			margin-left: 8px;
+		}
+
+		.employee_option .name {
+			font-size: 14px;
+			font-weight: 400;
+			padding-top: 4px;
+			padding-right: 3px;
+		}
+
+		.employee_option .email {
+			font-size: 12px;
+			color: #9c9b9b;
+			margin-top: -3px;
+		}
+
+		.selectize-dropdown {
+			padding: 6px 10px;
+		}
+
+		.selectize-dropdown [data-selectable] {
+			padding: 4px 9px;
+		}
+	</style>
+
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">New Meeting</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Form</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<div class="text-right" style="margin-right: 11px; margin-bottom: 13px;">
+					<button type="button" class="btn btn-warning">Cancel</button>
+					<button type="button" class="btn bg-teal-400 btn-labeled" ng-click="save()"><b><i class="icon-floppy-disk"></i></b> Save</button>
+				</div>
+
+				<!-- External events -->
+				<form action="#" style="display: flex;">
+
+					<div class="col-xs-6">
+						<div class="panel panel-flat" style="height: 100%;">
+							<div class="panel-heading">
+								<h5 class="panel-title">Meeting Information<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<fieldset>
+									<legend class="text-semibold" style="color: #1665bd;">
+										<i class="icon-reading position-left"></i>
+										Attendees
+										<a class="control-arrow" data-toggle="collapse" data-target="#demo1">
+											<i class="icon-circle-down2"></i>
+										</a>
+									</legend>
+
+									<div class="collapse in" id="demo1">
+										<div class="form-group">
+											<label>Meeting Title:</label>
+											<input type="text" class="form-control" placeholder="Meeting title.." ng-model="meeting.title">
+										</div>
+
+										<div class="form-group">
+											<label>Workgroup & Committee:</label>
+											<!-- <input type="text" class="form-control" placeholder="Workgroup"> -->
+											<select id="select-workgroup" class="contacts emp_field" placeholder="Workgroup & Committee" ng-model="meeting.workgroups"></select>
+										</div>
+
+										<div class="form-group">
+											<label>Room</label>
+											<select class="select" ng-model="meeting.room">
+												<optgroup label="Main Building">
+													<option value="room301">Room 301</option>
+													<option value="room302">Room 302</option>
+													<option value="room303">Room 303</option>
+													<option value="room304">Room 304</option>
+												</optgroup>
+												<optgroup label="Branch Zone">
+													<option value="room305">Room 305</option>
+													<option value="room306">Room 306</option>
+													<option value="room307">Room 307</option>
+													<option value="room308">Room 308</option>
+												</optgroup>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>Attendees:</label>
+											<select id="select-employee" class="contacts emp_field" placeholder="Attendees" ng-model="meeting.attendees"></select>
+											<!-- <input type="text" class="form-control" placeholder="Attendees"> -->
+										</div>
+
+										<div class="form-group">
+											<label>Link:</label>
+											<input type="text" class="form-control" placeholder="Link" ng-model="meeting.link">
+										</div>
+
+									</div>
+								</fieldset>
+
+								<fieldset>
+									<legend class="text-semibold" style="color: #1665bd;">
+										<i class="icon-calendar2 position-left"></i>
+										Timing
+										<a class="control-arrow" data-toggle="collapse" data-target="#demo2">
+											<i class="icon-circle-down2"></i>
+										</a>
+									</legend>
+
+									<div class="collapse in" id="demo2">
+
+										<div class="form-group">
+											<label>Time: </label>
+											<div class="input-group">
+												<input type="text" class="form-control daterange-increments" ng-model="meeting.time" value="">
+												<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" class="styled recurrent_field">
+													Recurrent Event
+												</label>
+											</div>
+										</div>
+
+										<div class="form-group recurrent_form">
+											<label>Frequency:</label>
+											<select class="form-control">
+												<option>Daily</option>
+												<option>Weekly</option>
+												<option>Monthly</option>
+												<option>Yearly</option>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>Remind Attendees before:</label>
+											<select class="form-control" ng-model="meeting.remind">
+												<option>5 mins</option>
+												<option>15 mins</option>
+												<option>30 mins</option>
+												<option>60 mins</option>
+												<option>12 hours</option>
+												<option>Day before</option>
+												<option>Week before</option>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>Notes:</label>
+											<textarea rows="5" cols="5" placeholder="Meeting Notes" class="form-control" ng-model="meeting.note"></textarea>
+										</div>
+									</div>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-6">
+						<div class="panel panel-flat" style="height: 100%;">
+							<div class="panel-heading">
+								<h5 class="panel-title">Workspace<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<fieldset style="margin-bottom: 50px;">
+									<legend class="text-semibold" style="color: #1665bd;">
+										<i class="icon-cog position-left"></i>
+										Topics
+										<a class="control-arrow" data-toggle="collapse" data-target="#demo3">
+											<i class="icon-circle-down2"></i>
+										</a>
+									</legend>
+
+									<div class="collapse in" id="demo3">
+										<div class="table-responsive____">
+											<table class="table">
+												<thead>
+													<tr style="background: #f0f0f0;">
+														<th>Topic</th>
+														<th style="width:115px;">Duration</th>
+														<th>Owner</th>
+														<th>Voting</th>
+														<th>Attachment</th>
+														<th>
+															<i
+																ng-click="addTopic()"
+																class="icon-plus-circle2 text-green-600 add_new_topic pointer" style="font-size: 20px;"></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody class="topics_body">
+													<tr ng-if="meeting.topics.length === 0">
+														<td colspan="6" class="no_topic_found" ng-click="addTopic()">
+															Add new Topic
+														</td>
+													</tr>
+													<tr ng-repeat="topic in meeting.topics">
+														<td>
+															<input class="form-control" placeholder="Topic" ng-model="meeting.topics[$index].topic">
+														</td>
+														<td style="width:115px;">
+															<div class="input-group">
+																<input type="text" class="form-control" placeholder="" ng-model="meeting.topics[$index].duration">
+																<span class="input-group-addon">min</span>
+															</div>
+														</td>
+														<td>
+															<div class="form-group" style="min-width: 200px; margin: 0;">
+																<select class="selectbox" ng-model="meeting.topics[$index].owner">
+																	<option value="john" data-iconurl="assets/images/av2.jpg">
+																		John Carter
+																	</option>
+																	<option value="eugene" data-iconurl="assets/images/av1.jpg">
+																		Richard Voln
+																	</option>
+																	<option value="barnaba" data-iconurl="assets/images/av2.jpg">
+																		Barnaba Losey
+																	</option>
+																	<option value="lucy" data-iconurl="assets/images/av4.jpg">
+																		Jif Abernatti
+																	</option>
+																</select>
+															</div>
+														</td>
+														<td>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" class="styled" ng-model="meeting.topics[$index].voting">
+																</label>
+															</div>
+														</td>
+														<td>
+															<input type="file"
+																class="filepond-{{$index}}"
+																name="filepond"
+																data-index="{{$index}}"
+																data-max-file-size="3MB"
+																data-max-files="3"
+																ng-change="topicAttachmentChange($event)"
+																ng-model="meeting.note" />
+															<!-- <input type="file" class="file-styled"> -->
+														</td>
+														<td>
+															<i class="icon-trash-alt text-warning pointer" ng-click="removeTopic($index)"></i>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</fieldset>
+
+								<fieldset>
+									<legend class="text-semibold" style="color: #1665bd;">
+										<i class="icon-attachment position-left"></i>
+										Attachment
+										<a class="control-arrow" data-toggle="collapse" data-target="#demo4">
+											<i class="icon-circle-down2"></i>
+										</a>
+									</legend>
+
+									<div class="collapse in" id="demo4">
+										<div id="drag-drop-area"></div>
+									</div>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+
+				</form>
+				<!-- /external events -->
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+			console.log(getMeetings());
+
+			$scope.topics = [];
+			$scope.meeting = {
+				type: 'app',
+				id: uuid4(),
+				title: null,
+				link: null,
+				time: null,
+				start: null,
+				end: null,
+				room: null,
+				remind: null,
+				note: null,
+				notification_received: false,
+				meeting_ended: false,
+				meeting_started: false,
+				todos: [],
+				topics: [],
+				attachments: [],
+				votes: [],
+				workgroups: [],
+				attendees: [],
+				approvals: [
+					{ id: 0, id: 0, key: 'approval_1', owner: 'chairman 1', owner_position: 'General Manager', approved: null, date: null, note: '', imgsrc: 'av4.jpg' },
+					{ id: 1, id: 1, key: 'approval_2', owner: 'chairman 2', owner_position: 'Consultant', approved: null, date: null, note: '', imgsrc: 'av3.jpg' },
+					{ id: 3, id: 3, key: 'approval_3', owner: 'chairman 3', owner_position: 'CEO', approved: null, date: null, note: '', imgsrc: 'av7.jpg' },
+				]
+			}
+
+			function uuid4() {
+				return Date.now().toString(36) + Math.random().toString(36).substring(2);
+			}
+
+			function rerender() {
+				setTimeout(() => {
+
+					$(".selectbox").selectBoxIt({
+						autoWidth: false
+					});
+
+					$scope.meeting.topics.forEach((v, i) => {
+						let selector = `.filepond-${i}`
+
+						renderFilepond(selector);
+
+						$(selector).on('FilePond:addfile', function (e) {
+							console.log('FilePond ready for use', e);
+							let index = selector.split('-')[1]
+							console.log(index, selector)
+							$scope.meeting.topics[index].attachment = "added"
+						})
+					})
+
+				}, 100);
+			}
+
+			uppyDashboard.on('file-added', (file) => {
+				console.log('Added file', file)
+				$scope.meeting.attachments.push({
+					id: uuid4(),
+					name: file.name
+				})
+			})
+
+			$scope.save = function () {
+
+				if (!$scope.meeting.time) {
+					return Swal.fire({
+						title: 'Missing some fields',
+						text: 'Please select the date of the meeting',
+						icon: 'error',
+						confirmButtonText: 'Ok'
+					})
+				}
+
+				if (!$scope.meeting.title) {
+					return Swal.fire({
+						title: 'Missing some fields',
+						text: 'Please a meeting title',
+						icon: 'error',
+						confirmButtonText: 'Ok'
+					})
+				}
+
+				let date = $scope.meeting.time.split(" - ");
+				let start = date[0];
+				let end = date[1];
+
+				$scope.meeting.start = new Date(start).toLocaleString();
+				$scope.meeting.end = new Date(end).toLocaleString();
+				console.log($scope.meeting);
+
+				addMeeting($scope.meeting);
+
+				sendMail($scope.meeting)
+
+				Swal.fire({
+					title: 'Meeting created.',
+					// text: 'Please a meeting title',
+					icon: 'success',
+					confirmButtonText: 'Ok'
+				}).then(function () {
+					window.location.href = 'calendar.html'
+				})
+			}
+
+
+
+			setTimeout(() => {
+				rerender();
+			}, 100);
+
+			$scope.addTopic = function () {
+				let active = false;
+
+				if ($scope.meeting.topics == 0)
+					active = true
+
+				$scope.meeting.topics.push({
+					id: uuid4(),
+					duration: null,
+					owner: null,
+					topic: null,
+					attachment: null,
+					voteUp: 0,
+					voteDown: 0,
+					votedDown: false,
+					votedUp: false,
+					completed: false,
+					active: active,
+				})
+
+				rerender();
+			}
+
+			$scope.removeTopic = function (index) {
+				$scope.meeting.topics.splice(index, 1)
+			}
+
+			$scope.sendMessage = function () {
+				sendMail($scope.meeting)
+				// $scope.sendMessage = function () {
+				// 	Email.send({
+				// 		Host: "smtp.elasticemail.com",
+				// 		Username: "everteam@gmail.com",
+				// 		Password: "F029AAF4A85B25AE1B11697E766A3F0E430D",
+				// 		To: 'hasan.ri25@gmail.com',
+				// 		From: "hasan.ri25@gmail.com",
+				// 		Subject: "This is the subject",
+				// 		Body: "And this is the body"
+				// 	}).then(
+				// 		message => alert(message)
+				// 	);
+				// }
+			}
+		});
+	</script>
+
+
+</body>
+
+</html>

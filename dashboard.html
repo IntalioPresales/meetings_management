@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/visualization/echarts/echarts.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/notifications/jgrowl.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/anytime.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/pickers/pickadate/legacy.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/notifications/pnotify.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/e_dashboard.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/pages/dashboard.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/custom/custom_dashboard.js"></script> -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+
+		.dropdown-menu .checkbox input {
+			margin-left: 10px;
+		}
+	</style>
+</head>
+
+<body ng-app="">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Executive Dashboard</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Executive Dashboard</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<!-- Main charts -->
+				<div class="row">
+					<div class="col-lg-6">
+
+						<!-- Traffic sources -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">Meetings Traffic </h6>
+								<div class="heading-elements">
+									<form class="heading-form" action="#">
+										<div class="form-group">
+											<label class="checkbox-inline checkbox-switchery checkbox-right switchery-xs">
+												<input type="checkbox" class="switch" checked="checked">
+												Live update:
+											</label>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-lg-4">
+										<ul class="list-inline text-center">
+											<li>
+												<a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-plus3"></i></a>
+											</li>
+											<li class="text-left">
+												<div class="text-semibold">New meetings </div>
+												<div class="text-muted">5 avg</div>
+											</li>
+										</ul>
+
+										<div class="col-lg-10 col-lg-offset-1">
+											<div class="content-group" id="new-visitors"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-4">
+										<ul class="list-inline text-center">
+											<li>
+												<a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-watch2"></i></a>
+											</li>
+											<li class="text-left">
+												<div class="text-semibold">Occupied</div>
+												<div class="text-muted">3 avg</div>
+											</li>
+										</ul>
+
+										<div class="col-lg-10 col-lg-offset-1">
+											<div class="content-group" id="new-sessions"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-4">
+										<ul class="list-inline text-center">
+											<li>
+												<a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-people"></i></a>
+											</li>
+											<li class="text-left">
+												<div class="text-semibold">Available rooms</div>
+												<div class="text-muted"><span class="status-mark border-success position-left"></span> 7 avg</div>
+											</li>
+										</ul>
+
+										<div class="col-lg-10 col-lg-offset-1">
+											<div class="content-group" id="total-online"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="position-relative" id="traffic-sources"></div>
+						</div>
+						<!-- /traffic sources -->
+
+					</div>
+
+					<div class="col-lg-6">
+
+						<!-- Sales stats -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">Room statisitcs </h6>
+								<div class="heading-elements">
+									<form class="heading-form" action="#">
+										<div class="form-group">
+											<select class="change-date select-sm" id="select_date">
+												<optgroup label="<i class='icon-watch pull-right'></i> Time period">
+													<option value="val1">Room 301</option>
+													<option value="val1">Room 302</option>
+													<option value="val3" selected="selected">Room 304</option>
+													<option value="val1">Room 305</option>
+													<option value="val1">Room 307</option>
+													<option value="val1">Room 308</option>
+
+												</optgroup>
+											</select>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="container-fluid">
+								<div class="row text-center">
+									<div class="col-md-4">
+										<div class="content-group">
+											<h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> 5,689</h5>
+											<span class="text-muted text-size-small">Today's meetings </span>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="content-group">
+											<h5 class="text-semibold no-margin"><i class="icon-calendar52 position-left text-slate"></i> 32,568</h5>
+											<span class="text-muted text-size-small">Available hours</span>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="content-group">
+											<h5 class="text-semibold no-margin"><i class="icon-calendar2 position-left text-slate"></i> 3</h5>
+											<span class="text-muted text-size-small">Canceled meetings </span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="content-group-sm" id="app_sales"></div>
+							<div id="monthly-sales-stats"></div>
+						</div>
+						<!-- /sales stats -->
+
+					</div>
+				</div>
+				<!-- /main charts -->
+
+
+				<!-- Dashboard content -->
+				<div class="row">
+					<div class="col-lg-8">
+
+						<!-- SEARCH BOX -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h5 class="panel-title">Quick search<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<form action="#" class="main-search">
+									<div class="input-group content-group">
+										<div class="has-feedback has-feedback-left">
+											<input type="text" class="form-control input-xlg" value="Search for meeting..">
+											<div class="form-control-feedback">
+												<i class="icon-search4 text-muted text-size-base"></i>
+											</div>
+										</div>
+
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-primary btn-xlg filter_btn">Search</button>
+										</div>
+
+									</div>
+
+
+								</form>
+
+								<div class="row advanced_search">
+
+									<div class="multi-select-full form-group col-xs-4">
+										<label>Room:</label>
+										<select class="multiselect-reset" multiple="multiple">
+											<option value="cheese">Room 301</option>
+											<option value="tomatoes">Room 302</option>
+											<option value="mozarella">Room 303</option>
+											<option value="mushrooms">Room 304</option>
+											<option value="pepperoni">Room 305</option>
+											<option value="onions">Room 306</option>
+										</select>
+									</div>
+									<div class="form-group col-xs-4">
+
+										<label>Starts:</label>
+										<input type="text" class="form-control " id="anytime-start" placeholder="Start">
+									</div>
+
+									<div class="form-group col-xs-4">
+										<label>Ends:</label>
+										<input type="text" class="form-control " id="anytime-end" placeholder="Ends">
+									</div>
+
+									<div class="multi-select-full form-group col-xs-4">
+										<label>Equipment:</label>
+										<select class="multiselect-reset" multiple="multiple">
+											<option value="">Wifi</option>
+											<option value="">Presentation</option>
+											<option value="">Microphone</option>
+											<option value="">TV</option>
+										</select>
+									</div>
+
+									<div class="form-group col-xs-4">
+										<label>Seats:</label>
+										<input type="text" class="form-control " placeholder="Seats">
+									</div>
+
+									<div class="multi-select-full form-group col-xs-4">
+										<label>Status:</label>
+										<select class="multiselect-reset" multiple="multiple">
+											<option value="">Available</option>
+											<option value="">Reserved</option>
+											<option value="">Maintenance</option>
+											<option value="">Cleaning</option>
+										</select>
+									</div>
+								</div>
+
+
+								<div class="row search-option-buttons">
+									<div class="col-sm-6">
+										<ul class="list-inline list-inline-condensed no-margin-bottom">
+											<!-- <li class="dropdown">
+											<a href="#" class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-stack2 position-left"></i> All categories <span class="caret"></span>
+											</a>
+
+											<ul class="dropdown-menu">
+												<li><a href="#"><i class="icon-question7"></i> Getting started</a></li>
+												<li><a href="#"><i class="icon-accessibility"></i> Registration</a></li>
+												<li><a href="#"><i class="icon-reading"></i> General info</a></li>
+												<li><a href="#"><i class="icon-gear"></i> Your settings</a></li>
+												<li><a href="#"><i class="icon-graduation"></i> Copyrights</a></li>
+												<li class="divider"></li>
+												<li><a href="#"><i class="icon-mail-read"></i> Contacting authors</a></li>
+											</ul>
+										</li> -->
+											<li><a href="javascript:void(0)" class="btn btn-link btn-sm"><i class="icon-reload-alt position-left"></i> Refine your search</a></li>
+										</ul>
+									</div>
+
+									<div class="col-sm-6 text-right">
+										<ul class="list-inline no-margin-bottom">
+											<!-- <li><a href="#" class="btn btn-link btn-sm"><i class="icon-make-group position-left"></i> Browse website</a></li> -->
+											<li><a href="javascript:void(0)" class="btn btn-link btn-sm advanved_search_btn"><i class="icon-menu7 position-left"></i> Advanced search</a></li>
+										</ul>
+									</div>
+								</div>
+								</form>
+							</div>
+						</div>
+
+						<!-- SEARCH RESULT -->
+						<div class="row search_result">
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 301 </div>
+											<div class="">Interim 2021 Earnings Release</div>
+											<span class="text-muted">Dec 18 2020 / 14:00 - 15:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 305 </div>
+											<div class="">Annual General Meeting</div>
+											<span class="text-muted">Dec 16 2020 / 12:00 - 16:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 305 </div>
+											<div class="">Amazon ads</div>
+											<span class="text-muted">Dec 14 2020 / 12:00 - 13:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 306 </div>
+											<div class="">Q3 2020 Earnings Release</div>
+											<span class="text-muted">Dec 14 2020 / 16:00 - 17:30 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+						<div class="row search_result">
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 302 </div>
+											<div class="">Roth Investor </div>
+											<span class="text-muted">Nov 16 2020 / 14:00 - 15:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 304 </div>
+											<div class="">2021 Mechanisms of action</div>
+											<span class="text-muted">Nov 12 2020 / 12:00 - 16:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 302 </div>
+											<div class="">Q1 2020 Earnings Release</div>
+											<span class="text-muted">Nov 17 2020 / 16:00 - 18:00 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-md-6">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-body">
+											<div class="media-heading text-blue" style="font-weight: 500;">Room 305 </div>
+											<div class="">Q4 2020 Earnings Release</div>
+											<span class="text-muted">Dec 17 2020 / 18:30 - 20:30 </span>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-file-openoffice pull-right"></i> Open meeting</a></li>
+														<li><a href="#"><i class="icon-calendar2 pull-right"></i> Propose new date</a></li>
+														<li><a href="#"><i class="icon-close2 pull-right"></i> Cancel meeting</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-notification2 pull-right"></i> Notifications</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+
+						<!-- Quick stats boxes -->
+						<div class="row">
+							<div class="col-lg-4">
+
+								<!-- Members online -->
+								<div class="panel bg-teal-400">
+									<div class="panel-body">
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="reload"></a></li>
+											</ul>
+										</div>
+
+										<h3 class="no-margin">6</h3>
+										Today meetings
+										<div class="text-muted text-size-small">30% avg</div>
+									</div>
+
+									<div class="container-fluid">
+										<div id="members-online"></div>
+									</div>
+								</div>
+								<!-- /members online -->
+
+							</div>
+
+							<div class="col-lg-4">
+
+								<!-- Current server load -->
+								<div class="panel bg-pink-400">
+									<div class="panel-body">
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="reload"></a></li>
+											</ul>
+										</div>
+
+										<h3 class="no-margin">49.4%</h3>
+										Canceled meetings
+										<div class="text-muted text-size-small">10% avg</div>
+									</div>
+
+									<div id="server-load"></div>
+								</div>
+								<!-- /current server load -->
+
+							</div>
+
+							<div class="col-lg-4">
+
+								<!-- Today's revenue -->
+								<div class="panel bg-blue-400">
+									<div class="panel-body">
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="reload"></a></li>
+											</ul>
+										</div>
+
+										<h3 class="no-margin">9</h3>
+										Pending meetings
+										<div class="text-muted text-size-small">60% avg</div>
+									</div>
+
+									<div id="today-revenue"></div>
+								</div>
+								<!-- /today's revenue -->
+
+							</div>
+						</div>
+						<!-- /quick stats boxes -->
+
+						<!-- Marketing campaigns -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">Today's meetings</h6>
+								<div class="heading-elements">
+									<span class="label bg-success heading-text">14 active</span>
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-sync"></i> Update data</a></li>
+												<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+												<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
+												<li class="divider"></li>
+												<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table table-lg text-nowrap">
+									<tbody>
+										<tr>
+											<td class="col-md-5">
+												<div class="media-left">
+													<div id="campaigns-donut"></div>
+												</div>
+												<div class="media-left">
+													<h5 class="text-semibold no-margin">38,289 <small class="text-success text-size-base"><i class="icon-arrow-up12"></i> (+16.2%)</small></h5>
+													<ul class="list-inline list-inline-condensed no-margin">
+														<li>
+															<span class="status-mark border-success"></span>
+														</li>
+														<li>
+															<span class="text-muted">May 12, 12:30 am</span>
+														</li>
+													</ul>
+												</div>
+											</td>
+
+											<td class="col-md-5">
+												<div class="media-left">
+													<div id="campaign-status-pie"></div>
+												</div>
+
+												<div class="media-left">
+													<h5 class="text-semibold no-margin">2,458 <small class="text-danger text-size-base"><i class="icon-arrow-down12"></i> (- 4.9%)</small></h5>
+													<ul class="list-inline list-inline-condensed no-margin">
+														<li>
+															<span class="status-mark border-danger"></span>
+														</li>
+														<li>
+															<span class="text-muted">Jun 4, 4:00 am</span>
+														</li>
+													</ul>
+												</div>
+											</td>
+
+											<td class="text-right col-md-2">
+												<a href="javascript:void(0)" class="btn bg-indigo-300"><i class="icon-statistics position-left"></i> View report</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table text-nowrap">
+									<thead>
+										<tr>
+											<th>Campaign</th>
+											<th class="col-md-2">Created by</th>
+											<th class="col-md-2">Attendees (count)</th>
+											<th class="col-md-2">Room</th>
+											<th class="col-md-2">Status</th>
+											<th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="active border-double">
+											<td colspan="5"> <i class='icon-video-camera2 position-left text-blue'></i> Room 301</td>
+											<td class="text-right">
+												<span class="progress-meter" id="today-progress" data-progress="30"></span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Joint Corp.</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-blue position-left"></span>
+														02:00 - 03:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Ollie Stone </span></td>
+											<td><span class="text-muted">14 / 25</span></td>
+											<!-- <td><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> 2.43%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 301</h6>
+											</td>
+											<td><span class="label bg-blue">Active</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Q3 2020 Earnings Release</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-danger position-left"></span>
+														13:00 - 14:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Ken Wilkinson</span></td>
+											<td><span class="text-muted">18 / 25</span></td>
+											<!-- <td><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> 3.12%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 301</h6>
+											</td>
+											<td><span class="label bg-danger">Ended</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td>
+
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Interim 2021 Earnings Release</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-grey-400 position-left"></span>
+														10:00 - 11:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Estelle Miller</span></td>
+											<td><span class="text-muted">14 / 25</span></td>
+											<!-- <td><span class="text-danger"><i class="icon-stats-decline2 position-left"></i> - 8.02%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 301</h6>
+											</td>
+											<td><span class="label bg-grey-400">Hold</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr class="active border-double">
+											<td colspan="5"> <i class='icon-video-camera2 position-left text-blue'></i> Room 308</td>
+											<td class="text-right">
+												<span class="progress-meter" id="today-progress" data-progress="30"></span>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Roth Investor Conferences</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-grey-400 position-left"></span>
+														04:00 - 05:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Wren Hampton</span></td>
+											<td><span class="text-muted">12 / 12</span></td>
+											<!-- <td><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> 2.78%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 308</h6>
+											</td>
+											<td><span class="label bg-grey-400">Hold</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr class="active border-double">
+											<td colspan="5"> <i class='icon-video-camera2 position-left text-blue'></i> Room 302</td>
+											<td class="text-right">
+												<span class="progress-meter" id="yesterday-progress" data-progress="65"></span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Annual General Meeting</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-success position-left"></span>
+														15:00 - 16:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Clay Fowler </span></td>
+											<td><span class="text-muted">6 / 16</span></td>
+											<!-- <td><span class="text-danger"><i class="icon-stats-decline2 position-left"></i> - 5.78%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 302</h6>
+											</td>
+											<td><span class="label bg-success-400">Pending</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropup">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Amazon ads</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-danger position-left"></span>
+														18:00 - 19:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Lara Payne</span></td>
+											<td><span class="text-muted">16 / 16</span></td>
+											<!-- <td><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> 6.79%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 302</h6>
+											</td>
+											<td><span class="label bg-blue">Active</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropup">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="media-left">
+													<div class=""><a href="#" class="text-default text-semibold">Capital One Securities Virtual REIT Conference</a></div>
+													<div class="text-muted text-size-small">
+														<span class="status-mark border-blue position-left"></span>
+														20:00 - 21:00
+													</div>
+												</div>
+											</td>
+											<td><span class="text-muted">Alvin Barlow</span></td>
+											<td><span class="text-muted">18 / 25</span></td>
+											<!-- <td><span class="text-danger"><i class="icon-stats-decline2 position-left"></i> 9.83%</span></td> -->
+											<td>
+												<h6 class="text-semibold">Room 302</h6>
+											</td>
+											<td><span class="label bg-danger">Ended</span></td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropup">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-file-stats"></i> Open</a></li>
+															<li><a href="#"><i class="icon-file-text2"></i> Edit</a></li>
+															<li><a href="#"><i class="icon-file-locked"></i> Cancel</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /marketing campaigns -->
+
+
+
+						<!-- DELETED -->
+						<div class="panel panel-flat" style="display: none;">
+							<div class="panel-heading">
+								<h6 class="panel-title">Search</h6>
+								<div class="heading-elements">
+									<button type="button" class="btn btn-link daterange-ranges heading-btn text-semibold">
+										<i class="icon-calendar3 position-left"></i> <span></span> <b class="caret"></b>
+									</button>
+								</div>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table table-xlg text-nowrap">
+									<tbody>
+										<tr>
+											<td class="col-md-4">
+												<div class="media-left media-middle">
+													<div id="tickets-status"></div>
+												</div>
+
+												<div class="media-left">
+													<h5 class="text-semibold no-margin">14,327 <small class="text-success text-size-base"><i class="icon-arrow-up12"></i> (+2.9%)</small></h5>
+													<span class="text-muted"><span class="status-mark border-success position-left"></span> Jun 16, 10:00 am</span>
+												</div>
+											</td>
+
+											<td class="col-md-3">
+												<div class="media-left media-middle">
+													<a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-xs btn-icon"><i class="icon-alarm-add"></i></a>
+												</div>
+
+												<div class="media-left">
+													<h5 class="text-semibold no-margin">
+														1,132 <small class="display-block no-margin">total tickets</small>
+													</h5>
+												</div>
+											</td>
+
+											<td class="col-md-3">
+												<div class="media-left media-middle">
+													<a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-xs btn-icon"><i class="icon-spinner11"></i></a>
+												</div>
+
+												<div class="media-left">
+													<h5 class="text-semibold no-margin">
+														06:25:00 <small class="display-block no-margin">response time</small>
+													</h5>
+												</div>
+											</td>
+
+											<td class="text-right col-md-2">
+												<a href="#" class="btn bg-teal-400"><i class="icon-statistics position-left"></i> Report</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table text-nowrap">
+									<thead>
+										<tr>
+											<th style="width: 50px">Due</th>
+											<th style="width: 300px;">User</th>
+											<th>Description</th>
+											<th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="active border-double">
+											<td colspan="3">Active tickets</td>
+											<td class="text-right">
+												<span class="badge bg-blue">24</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<h6 class="no-margin">12 <small class="display-block text-size-small no-margin">hours</small></h6>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-teal-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default text-semibold letter-icon-title">Annabelle Doney</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-blue position-left"></span> Active</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													<span class="text-semibold">[#1183] Workaround for OS X selects printing bug</span>
+													<span class="display-block text-muted">Chrome fixed the bug several versions ago, thus rendering this...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-checkmark3 text-success"></i> Resolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<h6 class="no-margin">16 <small class="display-block text-size-small no-margin">hours</small></h6>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default text-semibold letter-icon-title">Chris Macintyre</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-blue position-left"></span> Active</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													<span class="text-semibold">[#1249] Vertically center carousel controls</span>
+													<span class="display-block text-muted">Try any carousel control and reduce the screen width below...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-checkmark3 text-success"></i> Resolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<h6 class="no-margin">20 <small class="display-block text-size-small no-margin">hours</small></h6>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-blue btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default text-semibold letter-icon-title">Robert Hauber</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-blue position-left"></span> Active</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													<span class="text-semibold">[#1254] Inaccurate small pagination height</span>
+													<span class="display-block text-muted">The height of pagination elements is not consistent with...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-checkmark3 text-success"></i> Resolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<h6 class="no-margin">40 <small class="display-block text-size-small no-margin">hours</small></h6>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-warning-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default text-semibold letter-icon-title">Dex Sponheim</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-blue position-left"></span> Active</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													<span class="text-semibold">[#1184] Round grid column gutter operations</span>
+													<span class="display-block text-muted">Left rounds up, right rounds down. should keep everything...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-checkmark3 text-success"></i> Resolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr class="active border-double">
+											<td colspan="3">Resolved tickets</td>
+											<td class="text-right">
+												<span class="badge bg-success">42</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<i class="icon-checkmark3 text-success"></i>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-success-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default letter-icon-title">Alan Macedo</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-success position-left"></span> Resolved</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													[#1046] Avoid some unnecessary HTML string
+													<span class="display-block text-muted">Rather than building a string of HTML and then parsing it...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-plus3 text-blue"></i> Unresolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<i class="icon-checkmark3 text-success"></i>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-pink-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default letter-icon-title">Brett Castellano</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-success position-left"></span> Resolved</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													[#1038] Update json configuration
+													<span class="display-block text-muted">The <code>files</code> property is necessary to override the files property...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-plus3 text-blue"></i> Unresolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<i class="icon-checkmark3 text-success"></i>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default">Roxanne Forbes</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-success position-left"></span> Resolved</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													[#1034] Tooltip multiple event
+													<span class="display-block text-muted">Fix behavior when using tooltips and popovers that are...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropdown">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-plus3 text-blue"></i> Unresolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr class="active border-double">
+											<td colspan="3">Closed tickets</td>
+											<td class="text-right">
+												<span class="badge bg-danger">37</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<i class="icon-cross2 text-danger-400"></i>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default">Mitchell Sitkin</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-danger position-left"></span> Closed</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													[#1040] Account for static form controls in form group
+													<span class="display-block text-muted">Resizes control label's font-size and account for the standard...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropup">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-reload-alt text-blue"></i> Reopen issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="text-center">
+												<i class="icon-cross2 text-danger"></i>
+											</td>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-brown-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<a href="#" class="display-inline-block text-default letter-icon-title">Katleen Jensen</a>
+													<div class="text-muted text-size-small"><span class="status-mark border-danger position-left"></span> Closed</div>
+												</div>
+											</td>
+											<td>
+												<a href="#" class="text-default display-inline-block">
+													[#1038] Proper sizing of form control feedback
+													<span class="display-block text-muted">Feedback icon sizing inside a larger/smaller form-group...</span>
+												</a>
+											</td>
+											<td class="text-center">
+												<ul class="icons-list">
+													<li class="dropup">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+														<ul class="dropdown-menu dropdown-menu-right">
+															<li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
+															<li><a href="#"><i class="icon-history"></i> Full history</a></li>
+															<li class="divider"></li>
+															<li><a href="#"><i class="icon-plus3 text-blue"></i> Unresolve issue</a></li>
+															<li><a href="#"><i class="icon-cross2 text-danger"></i> Close issue</a></li>
+														</ul>
+													</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /support tickets -->
+
+					</div>
+
+					<div class="col-lg-4">
+
+						<!-- Progress counters -->
+						<div class="row">
+							<div class="col-md-6">
+
+								<!-- Available hours -->
+								<div class="panel text-center">
+									<div class="panel-body">
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li class="dropdown text-muted">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3"></i> <span class="caret"></span></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-sync"></i> Update data</a></li>
+														<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+														<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
+														<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+										<!-- Progress counter -->
+										<div class="content-group-sm svg-center position-relative" id="hours-available-progress"></div>
+										<!-- /progress counter -->
+
+
+										<!-- Bars -->
+										<div id="hours-available-bars"></div>
+										<!-- /bars -->
+
+									</div>
+								</div>
+								<!-- /available hours -->
+
+							</div>
+
+							<div class="col-md-6">
+
+								<!-- Productivity goal -->
+								<div class="panel text-center">
+									<div class="panel-body">
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li class="dropdown text-muted">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3"></i> <span class="caret"></span></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-sync"></i> Update data</a></li>
+														<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+														<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
+														<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+										<!-- Progress counter -->
+										<div class="content-group-sm svg-center position-relative" id="goal-progress"></div>
+										<!-- /progress counter -->
+
+										<!-- Bars -->
+										<div id="goal-bars"></div>
+										<!-- /bars -->
+
+									</div>
+								</div>
+								<!-- /productivity goal -->
+
+							</div>
+						</div>
+						<!-- /progress counters -->
+
+
+						<!-- Daily sales -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">In-Room Attendees traffic </h6>
+								<div class="heading-elements">
+									<span class="heading-text">Total Attandees: <span class="text-bold text-danger-600 position-right">450</span></span>
+									<ul class="icons-list">
+										<li class="dropdown text-muted">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3"></i> <span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-sync"></i> Update data</a></li>
+												<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+												<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
+												<li class="divider"></li>
+												<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<div id="sales-heatmap"></div>
+							</div>
+
+							<!-- <div class="table-responsive">
+								<table class="table text-nowrap">
+									<thead>
+										<tr>
+											<th>Application</th>
+											<th>Time</th>
+											<th>Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-primary-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="letter-icon-title">Sigma application</a>
+													</div>
+
+													<div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> New order</div>
+												</div>
+											</td>
+											<td>
+												<span class="text-muted text-size-small">06:28 pm</span>
+											</td>
+											<td>
+												<h6 class="text-semibold no-margin">$49.90</h6>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-danger-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="letter-icon-title">Alpha application</a>
+													</div>
+
+													<div class="text-muted text-size-small"><i class="icon-spinner11 text-size-mini position-left"></i> Renewal</div>
+												</div>
+											</td>
+											<td>
+												<span class="text-muted text-size-small">04:52 pm</span>
+											</td>
+											<td>
+												<h6 class="text-semibold no-margin">$90.50</h6>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-indigo-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="letter-icon-title">Delta application</a>
+													</div>
+
+													<div class="text-muted text-size-small"><i class="icon-lifebuoy text-size-mini position-left"></i> Support</div>
+												</div>
+											</td>
+											<td>
+												<span class="text-muted text-size-small">01:26 pm</span>
+											</td>
+											<td>
+												<h6 class="text-semibold no-margin">$60.00</h6>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-success-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="letter-icon-title">Omega application</a>
+													</div>
+
+													<div class="text-muted text-size-small"><i class="icon-lifebuoy text-size-mini position-left"></i> Support</div>
+												</div>
+											</td>
+											<td>
+												<span class="text-muted text-size-small">11:46 am</span>
+											</td>
+											<td>
+												<h6 class="text-semibold no-margin">$55.00</h6>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div class="media-left media-middle">
+													<a href="#" class="btn bg-danger-400 btn-rounded btn-icon btn-xs">
+														<span class="letter-icon"></span>
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="letter-icon-title">Alpha application</a>
+													</div>
+
+													<div class="text-muted text-size-small"><i class="icon-spinner11 text-size-mini position-left"></i> Renewal</div>
+												</div>
+											</td>
+											<td>
+												<span class="text-muted text-size-small">10:29 am</span>
+											</td>
+											<td>
+												<h6 class="text-semibold no-margin">$90.50</h6>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div> -->
+						</div>
+						<!-- /daily sales -->
+
+
+						<!-- My messages -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title">Scheduled maintenance & cleaning </h6>
+								<div class="heading-elements">
+									<span class="label bg-success heading-text">Live</span>
+								</div>
+							</div>
+
+							<!-- Numbers -->
+							<div class="container-fluid">
+								<div class="row text-center">
+									<div class="col-md-4">
+										<div class="content-group">
+											<h6 class="text-semibold no-margin"><i class="icon-clipboard3 position-left text-slate"></i> 28</h6>
+											<span class="text-muted text-size-small">today</span>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="content-group">
+											<h6 class="text-semibold no-margin"><i class="icon-calendar3 position-left text-slate"></i> 150</h6>
+											<span class="text-muted text-size-small">this week</span>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="content-group">
+											<h6 class="text-semibold no-margin"><i class="icon-comments position-left text-slate"></i> 299</h6>
+											<span class="text-muted text-size-small">this month</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /numbers -->
+
+
+							<!-- Area chart -->
+							<div id="messages-stats"></div>
+							<!-- /area chart -->
+
+
+							<!-- Tabs -->
+							<ul class="nav nav-lg nav-tabs nav-justified no-margin no-border-radius bg-indigo-400 border-top border-top-indigo-300">
+								<li class="active">
+									<a href="#messages-tue" class="text-size-small text-uppercase" data-toggle="tab">
+										Today
+									</a>
+								</li>
+
+								<li>
+									<a href="#messages-mon" class="text-size-small text-uppercase" data-toggle="tab">
+										Tomorrow
+									</a>
+								</li>
+
+								<li>
+									<a href="#messages-fri" class="text-size-small text-uppercase" data-toggle="tab">
+										This week
+									</a>
+								</li>
+							</ul>
+							<!-- /tabs -->
+
+
+							<!-- Tabs content -->
+							<div class="tab-content">
+								<div class="tab-pane active fade in has-padding" id="messages-tue">
+									<ul class="media-list">
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+												<span class="badge bg-danger-400 media-badge">8</span>
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 301
+													<span class="media-annotation pull-right">14:58</span>
+												</a>
+
+												<span class="display-block text-muted">Cleaning</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+												<span class="badge bg-danger-400 media-badge">6</span>
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 302
+													<span class="media-annotation pull-right">12:16</span>
+												</a>
+
+												<span class="display-block text-muted">Wifi not working</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 304
+													<span class="media-annotation pull-right">09:48</span>
+												</a>
+
+												<span class="display-block text-muted">Missing microphone </span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 305
+													<span class="media-annotation pull-right">05:54</span>
+												</a>
+
+												<span class="display-block text-muted">Cleaning</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 307
+													<span class="media-annotation pull-right">01:43</span>
+												</a>
+
+												<span class="display-block text-muted">Cleaning</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+
+								<div class="tab-pane fade has-padding" id="messages-mon">
+									<ul class="media-list">
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 307
+													<span class="media-annotation pull-right">Tue, 19:58</span>
+												</a>
+
+												<span class="display-block text-muted">Chairs replacement</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 309
+													<span class="media-annotation pull-right">Tue, 16:35</span>
+												</a>
+
+												<span class="display-block text-muted">Wifi not working...</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 302
+													<span class="media-annotation pull-right">Tue, 12:16</span>
+												</a>
+
+												<span class="display-block text-muted">Printer not working</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 301
+													<span class="media-annotation pull-right">Tue, 09:20</span>
+												</a>
+
+												<span class="display-block text-muted">Cleaning</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 301
+													<span class="media-annotation pull-right">Tue, 03:29</span>
+												</a>
+
+												<span class="display-block text-muted">Table need maintenance.</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+
+								<div class="tab-pane fade has-padding" id="messages-fri">
+									<ul class="media-list">
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 304
+													<span class="media-annotation pull-right">Mon, 18:12</span>
+												</a>
+
+												<span class="display-block text-muted">Wifi replacement</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 307
+													<span class="media-annotation pull-right">Mon, 14:03</span>
+												</a>
+
+												<span class="display-block text-muted">Projector installation</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 309
+													<span class="media-annotation pull-right">Mon, 13:59</span>
+												</a>
+
+												<span class="display-block text-muted">Room painting</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													Room 306
+													<span class="media-annotation pull-right">Mon, 09:26</span>
+												</a>
+
+												<span class="display-block text-muted">Cleaning</span>
+											</div>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+											</div>
+
+											<div class="media-body">
+												<a href="#">
+													310
+													<span class="media-annotation pull-right">Mon, 06:38</span>
+												</a>
+
+												<span class="display-block text-muted">Speaker replacement</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /tabs content -->
+
+						</div>
+						<!-- /my messages -->
+
+
+						<!-- Daily financials -->
+
+						<!-- /daily financials -->
+
+					</div>
+				</div>
+				<!-- /dashboard content -->
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		$(document).ready(function () {
+			// $('.daterange-single').daterangepicker({
+			// 	singleDatePicker: true
+			// });
+
+			$('.search_result').hide()
+
+			$('.filter_btn').click(function () {
+				$('.search_result').fadeToggle()
+			})
+
+			$('.advanced_search').hide()
+
+			$('.advanved_search_btn').click(function () {
+				$('.advanced_search').fadeToggle()
+			})
+
+			$("#anytime-start").AnyTime_picker({
+				format: "%M %D %Y %H:%i",
+			});
+
+			$("#anytime-end").AnyTime_picker({
+				format: "%M %D %Y %H:%i",
+			});
+
+
+			$('.multiselect-reset').multiselect();
+
+
+			$('#multiselect-reset-form').on('reset', function () {
+				$('.multiselect-reset option:selected').each(function () {
+					$(this).prop('selected', false);
+				})
+
+				$('.multiselect-reset').multiselect('refresh');
+				$.uniform.update();
+			});
+
+		})
+	</script>
+
+
+</body>
+
+</html>

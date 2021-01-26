@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar_approval.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar_approval.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Approvals</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="javascript:void(0)">Approvals</a></li>
+					<li><a href="javascript:void(0)">List</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<!-- Page length options -->
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h5 class="panel-title">Page length options</h5>
+						<div class="heading-elements">
+							<ul class="icons-list">
+								<li><a data-action="collapse"></a></li>
+								<li><a data-action="reload"></a></li>
+								<li><a data-action="close"></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="panel-body">
+						It is possible to easily customise the options shown in the length menu using the <code>lengthMenu</code> initialisation option. This parameter can take one of two forms: 1) A <code>1D</code> array of options which will be used for both the displayed option and the value; 2)
+						A <code>2D</code> array in which the first array is used to define the value options and the second array the displayed options. The example below shows a 2D array being used to include a <code>"Show all"</code> records option.
+					</div>
+
+					<table class="table datatable-show-all">
+						<thead>
+							<tr>
+								<th>Meeting</th>
+								<th>Date</th>
+								<th>Approvals</th>
+								<th>Status</th>
+								<th class="text-center">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="meeting in meetings">
+								<td class="text-capitalize"><a href="meeting_approvals.html?meeting_id={{meeting.id}}&user_id={{userId}}">{{meeting.title}} </a></td>
+								<td>{{meeting.start | date: 'medium'}}</td>
+								<td>1/3</td>
+								<td>
+									<span class="label label-success"
+										ng-class="{'label-success': meeting.approvals[userId].approved == true,'label-danger': meeting.approvals[userId].approved==false,'label-info': meeting.approvals[userId].approved === null }">
+										{{meeting.approvals[userId].approved ? "Approved": meeting.approvals[userId].approved ==null ? 'Pending' : 'Rejected'}}</span>
+								</td>
+								<td class="text-center">
+									<ul class="icons-list">
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="meeting_approvals.html?meeting_id={{meeting.id}}&user_id={{userId}}"><i class="icon-file-openoffice"></i> Review</a></li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- /page length options -->
+
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+			const queryString = window.location.search;
+
+			const urlParams = new URLSearchParams(queryString);
+
+			const userId = urlParams.get('user_id') || 0 + '';
+			$scope.userId = userId;
+			console.log($scope.userId);
+
+			$scope.meetings = getMeetings();
+			// $scope.filteredMeetings = 
+			console.log($scope.meetings);
+
+
+		});
+	</script>
+
+	<script>
+		/* ------------------------------------------------------------------------------
+	*
+	*  # Advanced datatables
+	*
+	*  Specific JS code additions for datatable_advanced.html page
+	*
+	*  Version: 1.0
+	*  Latest update: Aug 1, 2015
+	*
+	* ---------------------------------------------------------------------------- */
+
+		$(function () {
+
+			setTimeout(() => {
+
+
+				// Table setup
+				// ------------------------------
+
+				// Setting datatable defaults
+				$.extend($.fn.dataTable.defaults, {
+					autoWidth: false,
+					columnDefs: [{
+						orderable: false,
+						width: '100px',
+						targets: [5]
+					}],
+					dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+					language: {
+						search: '<span>Filter:</span> _INPUT_',
+						searchPlaceholder: 'Type to filter...',
+						lengthMenu: '<span>Show:</span> _MENU_',
+						paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+					},
+					drawCallback: function () {
+						$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+					},
+					preDrawCallback: function () {
+						$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+					}
+				});
+
+				// DOM positioning
+				$('.datatable-dom-position').DataTable({
+					dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
+				});
+
+
+				// Highlighting rows and columns on mouseover
+				var lastIdx = null;
+				var table = $('.datatable-highlight').DataTable();
+
+				$('.datatable-highlight tbody').on('mouseover', 'td', function () {
+					var colIdx = table.cell(this).index().column;
+
+					if (colIdx !== lastIdx) {
+						$(table.cells().nodes()).removeClass('active');
+						$(table.column(colIdx).nodes()).addClass('active');
+					}
+				}).on('mouseleave', function () {
+					$(table.cells().nodes()).removeClass('active');
+				});
+
+
+				// Columns rendering
+				$('.datatable-columns').dataTable({
+					columnDefs: [
+						{
+							// The `data` parameter refers to the data for the cell (defined by the
+							// `data` option, which defaults to the column being worked with, in
+							// this case `data: 0`.
+							render: function (data, type, row) {
+								return data + ' (' + row[3] + ')';
+							},
+							targets: 0
+						},
+						{ visible: false, targets: [3] }
+					]
+				});
+
+
+
+				// External table additions
+				// ------------------------------
+
+				// Enable Select2 select for the length option
+				$('.dataTables_length select').select2({
+					minimumResultsForSearch: Infinity,
+					width: 'auto'
+				});
+
+			});
+		}, 1000);
+
+
+	</script>
+
+</body>
+
+</html>

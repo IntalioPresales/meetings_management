@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Meetings Management System</title>
+	<base href="./">
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/meetings_repository.js"></script>
+	<script type="text/javascript" src="assets/js/users_repository.js"></script>
+	<script type="text/javascript" src="assets/js/workgroups_repository.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<!-- /theme JS files -->
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<!-- Main navbar -->
+	<div ng-include="'./reusable_components/main_navbar.html'"></div>
+	<!-- /Main navbar -->
+
+	<!-- Second navbar -->
+	<div ng-include="'./reusable_components/second_navbar.html'"></div>
+	<!-- / Second navbar -->
+
+	<!-- Page header -->
+	<div class="page-header">
+		<div class="page-header-content">
+			<div class="page-title">
+				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Meeting Invitation</span> </h4>
+
+				<ul class="breadcrumb breadcrumb-caret position-right">
+					<li><a href="#">Meeting</a></li>
+					<li><a href="#">{{meeting.title}}</a></li>
+				</ul>
+			</div>
+
+			<div class="heading-elements">
+				<div class="heading-btn-group">
+					<!-- <!-- <!-- href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></!-->
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a> --> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /page header -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<div class="row">
+					<div class="content-group" style="max-width: 600px; margin: auto;">
+						<div class="row row-seamless btn-block-group">
+							<div class="col-xs-4">
+								<button onclick="reject()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-blocked text-warning-600"></i>
+									<span>Reject</span>
+								</button>
+							</div>
+
+							<div class="col-xs-4">
+								<button onclick="accept()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-checkmark-circle2 text-blue"></i>
+									<span>Accept</span>
+								</button>
+							</div>
+
+							<div class="col-xs-4">
+								<button onclick="late()" type="button" class="btn btn-default btn-block btn-float btn-float-lg">
+									<i class="icon-calendar22 text-blue"></i>
+									<span>Propose new date</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-9">
+
+						<div class="row flex">
+
+							<div class="col-xs-4">
+
+								<!-- Simple list -->
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h5 class="panel-title text-everteam">
+											<i class="icon-users mr-5"></i>
+											ATTENDEES
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h5>
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="collapse"></a></li>
+												<li><a data-action="reload"></a></li>
+												<li><a data-action="close"></a></li>
+											</ul>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<!-- <li class="media-header">Team leaders</li> -->
+											<!-- ng-repeat="user in meeting.attendees" -->
+											<li class="media" ng-repeat="user in attendees">
+												<div class="media-left media-middle">
+													<a href="#">
+														<img src="assets/images/{{user.imgsrc}}" class="img-circle img-md" alt="">
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading text-semibold">
+														{{user.first_name}} {{user.last_name}}
+														<span>.</span>
+														<span class="text-everteam">Invitation Accepted</span>
+													</div>
+													<span class="text-muted">{{user.occupation}} . {{user.email}}</span>
+												</div>
+
+												<div class="media-right media-middle">
+													<ul class="icons-list icons-list-extended text-nowrap text-everteam">
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#call" data-original-title="Call"><i class="icon-phone2"></i></a></li>
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#chat" data-original-title="Chat"><i class="icon-comment"></i></a></li>
+														<li><a href="#" data-popup="tooltip" title="" data-toggle="modal" data-target="#video" data-original-title="Video"><i class="icon-video-camera"></i></a></li>
+													</ul>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+								<!-- /simple list -->
+							</div>
+
+							<div class="col-xs-4">
+
+								<!-- Simple list -->
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h5 class="panel-title text-everteam">
+											<i class="icon-office mr-5"></i>
+											Workgroup and Committee
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h5>
+										<div class="heading-elements">
+											<ul class="icons-list">
+												<li><a data-action="collapse"></a></li>
+												<li><a data-action="reload"></a></li>
+												<li><a data-action="close"></a></li>
+											</ul>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<!-- <li class="media-header">Team leaders</li> -->
+											<!-- ng-repeat="user in meeting.attendees" -->
+											<li class="media" ng-repeat="user in workgroups">
+												<div class="media-left media-middle">
+													<a href="#">
+														<img src="assets/images/placeholder.jpg" class="img-circle img-md" alt="">
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading text-semibold">
+														{{user.first_name}}
+														<!-- <span>.</span> -->
+														<!-- <span class="text-everteam"></span> -->
+													</div>
+													<span class="text-muted">{{user.email}} . {{user.last_name}}</span>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+								<!-- /simple list -->
+							</div>
+
+							<div class="col-xs-4">
+								<div class="panel full_height">
+									<div class="panel-body">
+										<h5 class="content-group">
+											<span class="label label-flat label-rounded label-icon border-grey text-grey mr-10">
+												<i class="icon-statistics text-everteam"></i>
+											</span>
+
+											<a href="#" class="text-everteam">
+												Shared Notes
+											</a>
+										</h5>
+
+										<p class="content-group">The constitutionally inventoried precariously. Pinched a well more moral chose goodness...</p>
+
+										<ul class="list list-icons">
+											<li>
+												<i class="icon-checkmark-circle text-success position-left"></i>
+												But that would be extremely strained
+											</li>
+											<li>
+												<i class="icon-checkmark-circle text-success position-left"></i>
+												Who knows, maybe that would be the best
+											</li>
+											<li>
+												<i class="icon-checkmark-circle text-success position-left"></i>
+												That was something he was unable to do
+											</li>
+										</ul>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row flex mt-10">
+
+							<div class="col-xs-6">
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h6 class="panel-title text-everteam">
+											<i class="icon-indent-increase2 mr-5"></i>
+											AGENDA
+											<a class="heading-elements-toggle"><i class="icon-more"></i></a>
+										</h6>
+										<div class="heading-elements">
+											<span class="label label-success heading-text">{{meeting.topics.length}} Topics</span>
+										</div>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list">
+											<li class="media" ng-repeat="topic in meeting.topics">
+												<a href="#" class="media-left">
+													<i class="icon-seven-segment-{{$index +1}}"></i>
+													<!-- <img src="assets/images/placeholder.jpg"
+														class="img-circle img-md" alt=""> -->
+												</a>
+												<div class="media-body">
+													<a href="#" class="media-heading text-semibold text-default text-capitalize">{{topic.topic}}</a>
+													<span class="text-size-small text-muted display-block">
+														<!-- <span class="status-mark border-success position-left"></span> -->
+														<i class="icon-alarm-check text-muted" style="font-size: 13px;"></i>
+														{{topic.duration}} min
+
+														<span class="ml-10">
+															<span class="text-success">4</span>
+															<a href="#"><i class="icon-arrow-up22 text-success" style="font-weight: bolder;"></i></a>
+															<span class="text-danger">2</span>
+															<a href="#"><i class="icon-arrow-down22 text-danger" style="font-weight: bolder;"></i></a>
+														</span>
+
+													</span>
+												</div>
+												<div class="media-right media-middle">
+													<!-- <ul class="icons-list">
+														<li class="dropdown">
+															<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+																<i class="icon-cog7"></i>
+																<span class="caret"></span>
+															</a>
+
+															<ul class="dropdown-menu dropdown-menu-solid">
+																<li class="dropdown-header">Options</li>
+																<li><a href="#"><i class="icon-pencil7"></i>Edit entry</a></li>
+																<li><a href="#"><i class="icon-bin"></i>Remove entry</a></li>
+																<li class="dropdown-header">Export</li>
+																<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+																<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+																<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+															</ul>
+														</li>
+													</ul> -->
+													<ul class="icons-list text-nowrap">
+														<li><a href="javascript:void(0)"><i class="icon-download7 mr-5"></i></a></li>
+														<li><a href="javascript:void(0)"><i class="icon-menu7"></i></a></li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-6">
+								<div class="panel panel-flat full_height">
+									<div class="panel-heading">
+										<h6 class="panel-title text-everteam">
+											<i class="icon-comment-discussion mr-5"></i>
+											MEETING ROOM CHAT
+										</h6>
+									</div>
+
+									<div class="panel-body">
+										<ul class="media-list chat-list content-group">
+											<li class="media reversed">
+												<div class="media-body">
+													<div class="media-content">Satisfactorily strenuously while sleazily</div>
+													<span class="media-annotation display-block mt-10">2 hours ago</span>
+												</div>
+
+												<div class="media-right">
+													<a href="assets/images/placeholder.jpg">
+														<img src="assets/images/av1.jpg" class="img-circle img-md" alt="">
+													</a>
+												</div>
+											</li>
+
+											<li class="media">
+												<div class="media-left">
+													<a href="assets/images/placeholder.jpg">
+														<img src="assets/images/av2.jpg" class="img-circle img-md" alt="">
+													</a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-content">Grunted smirked and grew.</div>
+													<span class="media-annotation display-block mt-10">13 minutes ago</span>
+												</div>
+											</li>
+
+											<li class="media reversed">
+												<div class="media-body">
+													<div class="media-content"><i class="icon-menu display-block"></i></div>
+												</div>
+
+												<div class="media-right">
+													<a href="assets/images/placeholder.jpg">
+														<img src="assets/images/av1.jpg" class="img-circle img-md" alt="">
+													</a>
+												</div>
+											</li>
+										</ul>
+
+										<textarea name="enter-message" class="form-control content-group" rows="3" cols="1" placeholder="Enter your message..."></textarea>
+
+										<div class="row">
+											<div class="col-xs-6">
+												<ul class="icons-list icons-list-extended mt-10">
+													<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send photo"><i class="icon-file-picture"></i></a></li>
+													<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send video"><i class="icon-file-video"></i></a></li>
+													<li><a href="#" data-popup="tooltip" data-container="body" title="" data-original-title="Send file"><i class="icon-file-plus"></i></a></li>
+												</ul>
+											</div>
+
+											<div class="col-xs-6 text-right">
+												<button type="button" class="btn bg-teal-400 btn-labeled btn-labeled-right"><b><i class="icon-circle-right2"></i></b> Send</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-lg-3">
+
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-watch position-left"></i> Time left<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="timer-weekdays mb-10">
+									<li><a href="#" class="label label-default">Mon</a></li>
+									<li class="active"><a href="#" class="label label-danger">Tue</a></li>
+									<li><a href="#" class="label label-default">Wed</a></li>
+									<li><a href="#" class="label label-default">Thu</a></li>
+									<li><a href="#" class="label label-default">Fri</a></li>
+									<li><a href="#" class="label label-default">Sat</a></li>
+									<li><a href="#" class="label label-default">Sun</a></li>
+								</ul>
+
+								<ul class="timer mb-10">
+									<li>
+										09 <span>hours</span>
+									</li>
+									<li class="dots">:</li>
+									<li>
+										54 <span>minutes</span>
+									</li>
+									<li class="dots">:</li>
+									<li>
+										29 <span>seconds</span>
+									</li>
+								</ul>
+							</div>
+
+							<div class="panel-footer panel-footer-transparent"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+								<div class="heading-elements flex justify-center">
+									<ul class="list-inline list-inline-condensed heading-text no-margin ml-15">
+										<li><a href="javascript:void(0)" ng-click="navigateToMeeting()" class="text-default">
+												<button type="button" class="btn bg-teal-400 btn-labeled btn-rounded btn-xs">
+													<b>
+														<i class="icon-play3"></i>
+													</b> Enter Meeting
+												</button>
+											</a>
+
+										</li>
+									</ul>
+
+									<ul class="list-inline list-inline-condensed heading-text pull-right">
+										<li class="dropdown">
+											<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown">
+												<span class="status-mark border-success position-left"></span>
+												Open
+												<span class="caret"></span>
+											</a>
+
+											<ul class="dropdown-menu dropdown-menu-right active">
+												<li class="active"><a href="#">Open</a></li>
+												<li><a href="#">On hold</a></li>
+												<li><a href="#">Resolved</a></li>
+												<li><a href="#">Closed</a></li>
+												<li class="divider"></li>
+												<li><a href="#">Dublicate</a></li>
+												<li><a href="#">Invalid</a></li>
+												<li><a href="#">Wontfix</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-files-empty position-left"></i> Meeting details<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<table class="table table-borderless table-xs content-group-sm">
+								<tbody>
+									<tr>
+										<td><i class="icon-briefcase position-left"></i> Title:</td>
+										<td class="text-right"><span class="pull-right text-capitalize"><a href="#">{{meeting.title}}</a></span></td>
+									</tr>
+									<tr>
+										<td><i class="icon-enter position-left"></i> Room:</td>
+										<td class="text-right text-capitalize"><a href="javascript:void(0)">{{meeting.room}}</a></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-check position-left"></i> Starts:</td>
+										<td class="text-right">{{meeting.start | date:'medium'}}</td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-check position-left"></i> Ends:</td>
+										<td class="text-right">{{meeting.end | date:'medium'}}</td>
+									</tr>
+
+									<tr>
+										<td><i class="icon-circles2 position-left"></i> Status:</td>
+										<td class="text-right">
+											<div class="btn-group">
+												<a href="#" class="label label-info dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+											</div>
+										</td>
+									</tr>
+
+									<tr>
+										<td><i class="icon-file-plus position-left"></i> Added by:</td>
+										<td class="text-right"><a href="javascript:void(0)">Willa Austin</a></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-add position-left"></i> Recurrent:</td>
+										<td class="text-right">No</td>
+									</tr>
+									<tr>
+										<td><i class="icon-bell-check position-left"></i> Remind before:</td>
+										<td class="text-right"><a href="javascript:void(0)">{{meeting.remind}}</a></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-add position-left"></i> Updated:</td>
+										<td class="text-right">{{meeting.start | date:'medium'}}</td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-check position-left"></i> Created:</td>
+										<td class="text-right">{{meeting.start | date:'medium'}}</td>
+									</tr>
+
+
+
+								</tbody>
+							</table>
+
+							<div class="panel-footer panel-footer-condensed"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+								<div class="heading-elements">
+									<ul class="list-inline list-inline-condensed heading-text">
+										<li><a href="#" class="text-default"><i class="icon-pencil7"></i></a></li>
+										<li><a href="#" class="text-default"><i class="icon-bin"></i></a></li>
+									</ul>
+
+									<ul class="list-inline list-inline-condensed heading-text pull-right">
+										<li><a href="#" class="text-default"><i class="icon-statistics"></i></a></li>
+										<li class="dropdown">
+											<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i><span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+												<li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+												<li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+												<li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-link position-left"></i> Attached files<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+										<li><a data-action="collapse"></a></li>
+										<li><a data-action="reload"></a></li>
+										<li><a data-action="close"></a></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list">
+									<li class="media">
+										<div class="media-left media-middle">
+											<i class="icon-file-word icon-2x text-muted"></i>
+										</div>
+
+										<div class="media-body">
+											<a href="#" class="media-heading text-semibold">Overdrew_scowled.doc</a>
+											<ul class="list-inline list-inline-separate list-inline-condensed text-size-mini text-muted">
+												<li>Size: 1.2Mb</li>
+												<li>Added by <a href="#">Smith</a></li>
+											</ul>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li><a href="#"><i class="icon-download"></i></a></li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left media-middle">
+											<i class="icon-file-stats icon-2x text-muted"></i>
+										</div>
+
+										<div class="media-body">
+											<a href="#" class="media-heading text-semibold">And_less_maternally.pdf</a>
+											<ul class="list-inline list-inline-separate list-inline-condensed text-size-mini text-muted">
+												<li>Size: 0.9Mb</li>
+												<li>Added by <a href="#">Ralph</a></li>
+											</ul>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li><a href="#"><i class="icon-download"></i></a></li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left media-middle">
+											<i class="icon-file-pdf icon-2x text-muted"></i>
+										</div>
+
+										<div class="media-body">
+											<a href="#" class="media-heading text-semibold">The_less_overslept.pdf</a>
+											<ul class="list-inline list-inline-separate list-inline-condensed text-size-mini text-muted">
+												<li>Size: 4.3Mb</li>
+												<li>Added by <a href="#">Natalie</a></li>
+											</ul>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li><a href="#"><i class="icon-download"></i></a></li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left media-middle">
+											<i class="icon-file-video icon-2x text-muted"></i>
+										</div>
+
+										<div class="media-body">
+											<a href="#" class="media-heading text-semibold">Well_equitably.mov</a>
+											<ul class="list-inline list-inline-separate list-inline-condensed text-size-mini text-muted">
+												<li>Size: 14.8Mb</li>
+												<li>Added by <a href="#">Jenny</a></li>
+											</ul>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list">
+												<li><a href="#"><i class="icon-download"></i></a></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+
+	<!-- Footer -->
+	<div ng-include="'./reusable_components/footer.html'"></div>
+	<!-- /footer -->
+
+	<script>
+		var app = angular.module("app", []);
+
+		app.controller("MainCtrl", function ($scope) {
+
+			const queryString = window.location.search;
+
+			const urlParams = new URLSearchParams(queryString);
+
+			const meetingId = urlParams.get('meeting_id');
+
+			$scope.meeting = getMeeting(meetingId);
+
+			$scope.navigateToMeeting = function () {
+				window.location.href = `meeting.html?meeting_id=${meetingId}`
+			}
+
+			console.log($scope.meeting);
+
+			// ---------------------
+			// USERS - ATTANDEES
+			// ---------------------
+			let users = getUsers();
+			$scope.attendees = [];
+			$scope.meeting.attendees.forEach(function (value) {
+				let index = users.findIndex(u => u.id == value);
+
+				if (index > -1)
+					$scope.attendees.push(users[index])
+			})
+
+			// ---------------------
+			// WORKGROUPS
+			// ---------------------
+			let workgroups = getWorkgroups();
+			$scope.workgroups = [];
+			$scope.meeting.workgroups.forEach(function (value) {
+				let index = workgroups.findIndex(u => u.id == value);
+
+				if (index > -1)
+					$scope.workgroups.push(workgroups[index])
+			})
+
+		});
+	</script>
+
+	<script>
+
+		function accept() {
+			Swal.fire({
+				title: 'Meeting invitation accepted.',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			}).then(function () {
+				window.location.href = 'calendar.html'
+			})
+		}
+
+		function reject() {
+			Swal.fire({
+				title: 'Meeting invitation rejected.',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			}).then(function () {
+				window.location.href = 'calendar.html'
+			})
+		}
+
+		function late() {
+			Swal.fire({
+				title: 'Meeting invitation accepted.',
+				text: 'Attendees will be informed you will be late..',
+				icon: 'success',
+				confirmButtonText: 'Ok'
+			}).then(function () {
+				window.location.href = 'calendar.html'
+			})
+		}
+
+	</script>
+
+
+
+
+</body>
+
+</html>
